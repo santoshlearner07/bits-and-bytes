@@ -3,12 +3,13 @@ package signUp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 
 public class SignUp {
 
     @FXML
     private Label label;
-    
+
     @FXML
     private TextField firstName;
 
@@ -19,9 +20,16 @@ public class SignUp {
     private TextField userName;
     @FXML
     private TextField userEmail;
+    @FXML
+    private ComboBox<String> roleBox;
 
     public void initialize() {
         label.setText("Welcome! Create your account.");
+    }
+
+    private void handleRole() {
+        String selectedRole = roleBox.getValue();
+        System.out.println("Selected Role: " + selectedRole);
     }
 
     @FXML
@@ -34,5 +42,12 @@ public class SignUp {
         System.out.println("Last Name: " + inputLastName);
         System.out.println("User Name: " + inputUserName);
         System.out.println("Email: " + inputUserEmail);
+        handleRole();
+
+        firstName.clear();
+        lastName.clear();
+        userName.clear();
+        userEmail.clear();
+        roleBox.setValue(null);
     }
 }

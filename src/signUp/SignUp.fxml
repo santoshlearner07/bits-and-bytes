@@ -5,14 +5,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import java.lang.String?>
+
 
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-    prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8"
+    prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="signUp.SignUp">
     <!-- <children> -->
-        <VBox layoutX="350.0" layoutY="500.0" spacing="10"
-         style="-fx-background-color:yellow;" 
+        <VBox spacing="10"
+         style="-fx-background-color:yellow;-fx-border-color:black;" 
          >
          <HBox alignment="CENTER" >
              <Label fx:id="label" text="Label" />
@@ -38,7 +42,21 @@
                     onAction="#handleInput" />
             </HBox>
             <HBox alignment="CENTER">
-                <Button text="Submit"/>
+                <Label text="Select Role type: " />
+                <ComboBox fx:id="roleBox" promptText="Select Role type" onAction="#handleRole">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Customer" />
+                            <String fx:value="Manager" />
+                            <String fx:value="Chef" />
+                            <String fx:value="Waiters" />
+                            <String fx:value="Delivery Driver" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Button text="Submit" onAction="#handleInput"/>
             </HBox>
         </VBox>
     <!-- </children> -->
