@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="signUp.SignUp">
+    <!-- <children> -->
+        <VBox layoutX="350.0" layoutY="500.0" spacing="10"
+         style="-fx-background-color:yellow;" 
+         >
+         <HBox alignment="CENTER" >
+             <Label fx:id="label" text="Label" />
+         </HBox>
+            <HBox alignment="CENTER" >
+                <Label text="First Name: " />
+                <TextField fx:id="firstName" promptText="Enter your First Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox  alignment="CENTER">
+                <Label text="Last Name: " />
+                <TextField fx:id="lastName" promptText="Enter your Last Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox  alignment="CENTER">
+                <Label text="User Name: " />
+                <TextField fx:id="userName" promptText="Enter your User Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label text="User Email: " />
+                <TextField fx:id="userEmail" promptText="Enter your Email"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER">
+                <Button text="Submit"/>
+            </HBox>
+        </VBox>
+    <!-- </children> -->
+</StackPane>
