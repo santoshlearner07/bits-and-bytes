@@ -1,0 +1,192 @@
+package hellofx;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("LandingPage.fxml"));
+        primaryStage.setTitle("Bits and Bytes");
+        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.show();
+        // primaryStage.getScene().getRoot().requestFocus();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<StackPane fx:id="rootPane" 
+    xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="hellofx.LandingPage"
+    alignment="CENTER">
+    <StackPane fx:id="contentPane" focusTraversable="true" />
+    <StackPane pickOnBounds="false">
+        <VBox spacing="10">
+            <HBox>
+                <Button text="Sign Up" onAction="#signUpPage" />
+                <Button text="Login" onAction="#loginPage" />
+            </HBox>
+        </VBox>
+    </StackPane>
+</StackPane>
+package hellofx;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+
+public class LandingPage {
+
+    @FXML
+    private Label label;
+
+    // @FXML
+    // private StackPane rootPane;
+
+    @FXML
+    private StackPane contentPane;
+
+    @FXML
+    private void signUpPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
+            Parent signUpRoot = loader.load();
+            contentPane.getChildren().setAll(signUpRoot);
+            // contentPane.setPickOnBounds(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void loginPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+            Parent loginRoot = loader.load();
+            contentPane.getChildren().setAll(loginRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="4000.0" prefWidth="6000.0" xmlns="http://javafx.com/javafx/8"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.SignUp"
+    alignment="CENTER">
+    <children>
+
+        <VBox layoutX="150.0" layoutY="200.0" spacing="10"
+        style="-fx-border-color: black; -fx-border-width: 2px;"
+           alignment="CENTER">
+            <Label fx:id="label" text="Label" />
+            <HBox alignment="CENTER" >
+                <Label text="First Name: " />
+                <TextField fx:id="firstName" promptText="Enter your First Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox  alignment="CENTER">
+                <Label text="Last Name: " />
+                <TextField fx:id="lastName" promptText="Enter your Last Name"
+                    onAction="#handleInput" />
+            </HBox>
+        </VBox>
+    </children>
+</StackPane>
+package hellofx;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+public class SignUp {
+
+    @FXML
+    private Label label;
+    
+    @FXML
+    private TextField firstName;
+
+    @FXML
+    private TextField lastName;
+
+    public void initialize() {
+        label.setText("Welcome! Create your account.");
+    }
+
+    @FXML
+    private void handleInput() {
+        // label.setText("Welcome! Create your account.");
+        String inputFirstName = firstName.getText();
+        String inputLastName = lastName.getText();
+        System.out.println("User Input: " + inputFirstName);
+        System.out.println("User Input: " + inputLastName);
+    }
+}
+package hellofx;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+public class Login {
+    @FXML
+    private Label label;
+
+    @FXML
+    private TextField userName;
+
+    // public void initialize() {
+        // }
+        
+
+    @FXML  
+    private void handleLogin(){
+        label.setText("Hello User");
+        String inputUserName = userName.getText(); 
+        System.out.println("User Name: " + inputUserName);
+    }
+}
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="hellofx.Login"
+>
+    <VBox layoutX="150.0" layoutY="200.0" spacing="10">
+        <HBox alignment="CENTER">
+            <Label text="User Name" />
+            <TextField fx:id="userName" promptText="Enter your user name...."
+                onAction="#handleLogin" />
+        </HBox>
+    </VBox>
+</StackPane>
