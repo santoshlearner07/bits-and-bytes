@@ -43,7 +43,7 @@
             </HBox>
             <HBox alignment="CENTER">
                 <Label text="Select Role type: " />
-                <ComboBox fx:id="roleBox" promptText="Select Role type">
+                <ComboBox fx:id="roleBox" promptText="Select Role type" onAction="#handleRole">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Customer" />
