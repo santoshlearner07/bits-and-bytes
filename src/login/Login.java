@@ -61,4 +61,17 @@ public class Login {
         }
 
     }
+
+    @FXML
+    private void goToSignUp() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../signUp/SignUp.fxml"));
+            Parent signUpRoot = loader.load();
+            goToMain.getChildren().setAll(signUpRoot);
+            // contentPane.setPickOnBounds(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,8 +1,11 @@
 package signUp;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,7 +34,7 @@ public class SignUp {
         }
     }
 
-    private void insertSignUpData(String firstName, String lastName, String userName, String userEmail,String roleBox)
+    private void insertSignUpData(String firstName, String lastName, String userName, String userEmail, String roleBox)
             throws SQLException {
         connect();
         String insertQuery = "INSERT INTO signup(firstName,lastName,userName,userEmail,roleBox) VALUES (?,?,?,?,?)";
@@ -66,16 +69,19 @@ public class SignUp {
 
     @FXML
     private TextField userName;
-    
+
     @FXML
     private TextField userEmail;
-    
+
     @FXML
     private ComboBox<String> roleBox;
 
     public void initialize() {
         label.setText("Welcome! Create your account.");
     }
+
+    @FXML
+    private StackPane signUpPane;
 
     @FXML
     private void handleInput() {
@@ -91,7 +97,7 @@ public class SignUp {
         System.out.println("Selected Role: " + selectedRole);
 
         try {
-            insertSignUpData(inputFirstName, inputLastName, inputUserName, inputUserEmail,selectedRole);
+            insertSignUpData(inputFirstName, inputLastName, inputUserName, inputUserEmail, selectedRole);
             System.out.println("Data inserted");
         } catch (SQLException e) {
             System.out.println("Error, inserting data:- " + e.getMessage());
@@ -103,4 +109,16 @@ public class SignUp {
         userEmail.clear();
         roleBox.setValue(null);
     }
+
+    @FXML
+    private void goToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+            Parent loginRoot = loader.load();
+            signUpPane.getChildren().setAll(loginRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -3,17 +3,32 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
     minWidth="-Infinity"
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="landingPage.LandingPage" alignment="TOP_CENTER">
-    <StackPane fx:id="contentPane" />
-    <VBox spacing="10"
-        style="-fx-background-color:#007bff;-fx-min-height: 30px; -fx-max-height: 30px;">
-        <HBox alignment="CENTER">
-            <Button text="Sign Up" onAction="#signUpPage" />
-            <Button text="Login" onAction="#loginPage" />
-        </HBox>
-    </VBox>
+    fx:controller="landingPage.LandingPage">
+
+    <ImageView fitWidth="1000" fitHeight="1000">
+        <image>
+            <Image url="https://www.newport-landing.com/wp-content/uploads/2018/08/NLextHi-1.jpg" />
+        </image>
+    </ImageView>
+
+    <!-- <ImageView fitWidth="1000" fitHeight="1000" >
+        <image>
+            <Image url="A.jpg" />
+        </image>
+    </ImageView> -->
+
+    <StackPane fx:id="contentPane">
+        <VBox style="-fx-min-height: 30px; -fx-max-height: 30px;">
+            <HBox alignment="CENTER">
+                <Button text="Sign Up" onAction="#signUpPage" />
+                <Button text="Login" onAction="#loginPage" />
+            </HBox>
+        </VBox>
+    </StackPane>
 </StackPane>
