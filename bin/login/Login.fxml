@@ -8,17 +8,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
-<StackPane fx:id="goToMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-    prefHeight="250.0" prefWidth="250.0"
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0"
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="login.Login"
 >
     <VBox layoutX="250.0" layoutY="250.0" spacing="10"
-        style="-fx-background-color:#007bff"
     >
-        <HBox alignment="CENTER">
-            <Label fx:id="aUser" text="Hello! User." />
-        </HBox>
+    <HBox alignment="CENTER" >
+        <Label fx:id="aUser" text="Hello! User." />
+    </HBox>
         <HBox alignment="CENTER">
             <Label text="User Name" />
             <TextField fx:id="userName" promptText="Enter your user name...."
@@ -28,4 +26,8 @@
             <Button text="Submit" onAction="#handleLogin" />
         </HBox>
     </VBox>
+    <HBox alignment="CENTER" onMouseClicked="#goToSignUp"
+        style="-fx-min-height: 30px; -fx-max-height: 30px;">
+        <Label text="Become an User." style="-fx-text-decoration: underline; -fx-cursor: hand;" />
+    </HBox>
 </StackPane>

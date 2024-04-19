@@ -3,14 +3,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
     minWidth="-Infinity"
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="landingPage.LandingPage" alignment="TOP_CENTER">
-    <StackPane fx:id="contentPane" />
+    <StackPane fx:id="contentPane" focusTraversable="false"/>
     <VBox spacing="10"
-        style="-fx-background-color:#007bff;-fx-min-height: 30px; -fx-max-height: 30px;">
+        style="-fx-background-color:#007bff;-fx-min-height: 40px; -fx-max-height: 40px;">
         <HBox alignment="CENTER">
             <Button text="Sign Up" onAction="#signUpPage" />
             <Button text="Login" onAction="#loginPage" />

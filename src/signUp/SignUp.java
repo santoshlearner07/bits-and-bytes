@@ -1,8 +1,11 @@
 package signUp;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -73,6 +76,9 @@ public class SignUp {
     @FXML
     private ComboBox<String> roleBox;
 
+    @FXML
+    private StackPane signUpPane;
+
     public void initialize() {
         label.setText("Welcome! Create your account.");
     }
@@ -103,4 +109,16 @@ public class SignUp {
         userEmail.clear();
         roleBox.setValue(null);
     }
+
+    @FXML
+    private void goToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+            Parent loginRoot = loader.load();
+            signUpPane.getChildren().setAll(loginRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
