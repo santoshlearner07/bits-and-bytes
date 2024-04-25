@@ -11,17 +11,11 @@
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="landingPage.LandingPage">
 
-    <ImageView fitWidth="1000" fitHeight="1000">
+    <ImageView fitWidth="1500" fitHeight="1500">
         <image>
-            <Image url="https://www.newport-landing.com/wp-content/uploads/2018/08/NLextHi-1.jpg" />
+            <Image url="@../images/BackgroundImage.jpg" />
         </image>
     </ImageView>
-
-    <!-- <ImageView fitWidth="1000" fitHeight="1000" >
-        <image>
-            <Image url="A.jpg" />
-        </image>
-    </ImageView> -->
 
     <StackPane fx:id="contentPane">
         <VBox style="-fx-min-height: 30px; -fx-max-height: 30px;">

@@ -11,12 +11,16 @@
 
 
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<StackPane fx:id="displayMultipleEvent"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
     prefHeight="680.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainPage.MainPage">
     <VBox spacing="10"  style="-fx-background-color:green;" >
-        <HBox alignment="CENTER">
-            <Button text="Worked"/>
+        <!-- <HBox alignment="CENTER" onMouseClicked="#goToTable" > -->
+            <HBox>
+                <Label fx:id="userDataLabel" text="Hellu buddy"/>
+            </HBox>
+        <HBox alignment="CENTER"  >
+            <Button text="Book a Table"  onAction="#goToTable" />
         </HBox>
     </VBox>
 </StackPane>

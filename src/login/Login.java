@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import mainPage.MainPage;
 
 public class Login {
     @FXML
@@ -37,37 +38,34 @@ public class Login {
     @FXML
     private void handleLogin() throws SQLException {
         connect();
-        aUser.setText("Hello User");
         String checkUserName = userName.getText();
         try {
-            String userNameCheckQuery = "SELECT COUNT(*) AS email_count FROM signup WHERE userName = ?";
-            preparedStatement = connection.prepareStatement(userNameCheckQuery);
+            String userDataQuery = "SELECT * FROM signup WHERE userName = ?";
+            preparedStatement = connection.prepareStatement(userDataQuery);
             preparedStatement.setString(1, checkUserName);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int emailCount = resultSet.getInt("email_count");
-                if (emailCount > 0) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../mainPage/MainPage.fxml"));
-                    Parent mainRoot = loader.load();
-                    goToMain.getChildren().setAll(mainRoot);
-                } else {
-                    aUser.setText("User name does not exist");
-                    System.out.println("Email does not exist in the database.");
-                    userName.clear();
-                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../mainPage/MainPage.fxml"));
+                Parent mainRoot = loader.load();
+                MainPage mainPageController = loader.getController();
+                mainPageController.setUser(resultSet); // Pass user data to MainPage controller
+                goToMain.getChildren().setAll(mainRoot);
+            } else {
+                aUser.setText("User name does not exist");
+                System.out.println("Username does not exist in the database.");
+                userName.clear();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
     private void goToSignUp() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../signUp/SignUp.fxml"));
-            Parent signUpRoot = loader.load();
-            goToMain.getChildren().setAll(signUpRoot);
+            Parent loginRoot = loader.load();
+            goToMain.getChildren().setAll(loginRoot);
             // contentPane.setPickOnBounds(false);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="680.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableBooking.TableBooking">
+    <VBox spacing="10" style="-fx-background-color:yellow;">
+        <HBox alignment="CENTER">
+            <Label text="Select the number of seats:" />
+            <ComboBox fx:id="seatsComboBox" promptText="Select" />
+        </HBox>
+        <Label text="Checking" fx:id="availabilityLabel" />
+        <HBox style="-fx-background-color:green;">
+            <Button onAction="#checkingSeats">Check availability</Button>
+        </HBox>
+        <HBox style="-fx-background-color:cyan;" >
+            <Button fx:id="bookTable" onAction="#bookATable">Book a table</Button>
+        </HBox>
+    </VBox>
+</StackPane>
