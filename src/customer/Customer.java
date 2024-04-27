@@ -31,8 +31,10 @@ public class Customer {
         // userDataBuilder.append("User Data:\n");
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
-        // userDataBuilder.append("Email: ").append(userData.getString("userEmail")).append("\n");
-        // userDataBuilder.append("Role: ").append(userData.getString("roleBox")).append("\n");
+        // userDataBuilder.append("Email:
+        // ").append(userData.getString("userEmail")).append("\n");
+        // userDataBuilder.append("Role:
+        // ").append(userData.getString("roleBox")).append("\n");
         userDataLogin.setText(userDataBuilder.toString());
     }
 
@@ -55,7 +57,7 @@ public class Customer {
 
     @FXML
     private void logout() throws SQLException {
-        System.out.println(userData.getString("firstName"));
+        System.out.println("Logged out " + userData.getString("firstName"));
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
             Parent mainPageRoot = loader.load();

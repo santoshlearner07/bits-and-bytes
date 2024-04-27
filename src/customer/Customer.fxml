@@ -18,7 +18,7 @@
         </HBox>
     </VBox>
 
-    <VBox fx:id="displayTable" style="-fx-padding: 80 0 0 0;" StackPane.alignment="CENTER">
+    <VBox fx:id="displayTable" style="-fx-padding: 40 0 0 0;" StackPane.alignment="CENTER">
         <HBox alignment="TOP_LEFT">
             <ImageView fitWidth="300" fitHeight="180">
                 <image>
@@ -35,7 +35,7 @@
             </ImageView>
         </HBox>
 
-        <HBox alignment="BOTTOM_LEFT">
+        <HBox alignment="BOTTOM_LEFT" onMouseClicked="#goToTable">
             <ImageView fitWidth="300" fitHeight="180">
                 <image>
                     <Image url="@../images/event.jpeg" />
@@ -50,7 +50,8 @@
     </VBox>
 
     <VBox alignment="BOTTOM_CENTER" StackPane.alignment="BOTTOM_CENTER"
-        style="-fx-padding: 0 0 0 750;">
+        style="-fx-padding: 0 0 0 750;" maxHeight="40" maxWidth="-Infinity" minHeight="40"
+        minWidth="-Infinity">
         <HBox alignment="CENTER">
             <Button text="Logout" onAction="#logout"
                 style="-fx-cursor: hand;-fx-background-color: #de001c;-fx-background-radius: 10px;-fx-text-fill: #FFF0F5;" />
