@@ -1,93 +1,168 @@
 package tableBooking;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+import customer.Customer;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 public class TableBooking {
     private final String DATABASE_URL = "jdbc:mysql://localhost:3306/cafe";
     private final String USERNAME = "root";
     private final String PASSWORD = "san7@SQL";
-    private final String AVAILABLE_TABLE_COUNT = "SELECT COUNT(*) AS available_tables_count FROM restaurant_tables WHERE seats = ? AND is_available = 1";
-    private final String TABLE_BOOKED = "UPDATE restaurant_tables SET is_available = 0 WHERE seats = ? AND is_available = 1 LIMIT 1";
+    private final String CUSTOMER_TABLE_BOOKED = "INSERT INTO tableBookingInfo (name, tableSeat, tblBkDt,tblBkTime) VALUES (?, ?, ?, ?)";
 
     @FXML
     private ComboBox<String> seatsComboBox;
 
     @FXML
+    private ComboBox<String> timeComboBox;
+
+    @FXML
     private Label availabilityLabel;
+
+    @FXML
+    private Label bookingStatus;
 
     @FXML
     private Button bookTable;
 
     @FXML
+    private StackPane tableBK;
+
+    @FXML
+    private DatePicker datePicker;
+
+    private ResultSet userData;
+
+    @FXML
     public void initialize() {
         seatsComboBox.setItems(FXCollections.observableArrayList(
                 "2 seats", "4 seats", "8 seats", "10 seats", "11 seats"));
-    }
 
-    @FXML
-    public void checkingSeats() {
-        String selectedSeats = seatsComboBox.getValue();
-        if (selectedSeats != null && !selectedSeats.isEmpty()) {
-            int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
-            int availableTablesCount = countAvailableTables(selectedSeatsCount);
-            availabilityLabel
-                    .setText("Available tables for " + selectedSeats + ": " + availableTablesCount);
+        timeComboBox.setItems(FXCollections.observableArrayList(
+                "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM",
+                "07:00 PM", "08:00 PM", "09:00 PM",
+                "10:00 PM", "11:00 PM"));
 
-            bookTable.setVisible(availableTablesCount > 0);
-        } else {
-            availabilityLabel.setText("Please select the number of seats.");
-        }
-    }
-
-    private int countAvailableTables(int seats) {
-        int count = 0;
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
-            String sql = AVAILABLE_TABLE_COUNT;
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, seats);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        count = rs.getInt("available_tables_count");
-                    }
-                }
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate currentDate = LocalDate.now();
+                LocalDate maxDate = currentDate.plusDays(15);
+                setDisable(empty || date.isBefore(currentDate) || date.isAfter(maxDate));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return count;
+        });
+    }
+
+    // @FXML
+    // public void bookATable() throws SQLException {
+    // String selectedSeats = seatsComboBox.getValue();
+    // String selectedTime = timeComboBox.getValue();
+    // if (selectedSeats != null && !selectedSeats.isEmpty() && selectedTime != null
+    // && !selectedTime.isEmpty()) {
+    // int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
+    // int selectedBookingTime = Integer.parseInt(selectedTime.split(" ")[0]);
+    // System.out.println(selectedSeatsCount + " -- " + selectedBookingTime + " -- "
+    // + userData.getString("firstName"));
+    // try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME,
+    // PASSWORD)) {
+    // // String sql = TABLE_BOOKED;
+    // // try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+    // // stmt.setInt(1, selectedSeatsCount);
+    // // int rowsUpdated = stmt.executeUpdate();
+    // // availabilityLabel
+    // // .setText("Table Booked");
+    // // if (rowsUpdated > 0) {
+    // // System.out.println("Table booked successfully.");
+    // // } else {
+    // // System.out.println("Failed to book the table.");
+    // // }
+    // // }
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+    // } else {
+    // System.out.println("Wrong");
+    // }
+    // }
+
+    public void setUser(ResultSet userData) throws SQLException {
+        StringBuilder userDataBuilder = new StringBuilder();
+        this.userData = userData;
+        userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
+        userDataBuilder.append(userData.getString("lastName")).append("\n");
     }
 
     @FXML
-    public void bookATable() {
+    public void bookATable() throws SQLException {
+        if (userData == null) {
+            System.out.println("User data is null.");
+            return;
+        }
+
         String selectedSeats = seatsComboBox.getValue();
-        if (selectedSeats != null && !selectedSeats.isEmpty()) {
+        String selectedTime = timeComboBox.getValue();
+        LocalDate selectedDate = datePicker.getValue(); // Get selected date as LocalDate
+
+        if (selectedSeats != null && !selectedSeats.isEmpty() &&
+                selectedTime != null && !selectedTime.isEmpty() &&
+                selectedDate != null) {
             int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
+            String userName = userData.getString("firstName") + " " + userData.getString("lastName");
+
             try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
-                String sql = TABLE_BOOKED;
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setInt(1, selectedSeatsCount);
+                try (PreparedStatement stmt = conn.prepareStatement(CUSTOMER_TABLE_BOOKED)) {
+                    stmt.setString(1, userName);
+                    stmt.setInt(2, selectedSeatsCount);
+                    stmt.setDate(3, java.sql.Date.valueOf(selectedDate));
+                    stmt.setString(4, selectedTime);
                     int rowsUpdated = stmt.executeUpdate();
-                    availabilityLabel
-                            .setText("Table Booked");
                     if (rowsUpdated > 0) {
                         System.out.println("Table booked successfully.");
+                        seatsComboBox.setValue(null);
+                        timeComboBox.setValue(null);
+                        datePicker.setValue(null);
+                        bookingStatus.setText("Table booked.");
                     } else {
                         System.out.println("Failed to book the table.");
+                        bookingStatus.setText("Fill every field.");
                     }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("Please select all options.");
+            bookingStatus.setText("Fill every field.");
+        }
+    }
+
+    @FXML
+    public void goBack() throws SQLException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
+            Parent customerRoot = loader.load();
+            Customer customerController = loader.getController();
+            customerController.setUser(userData); // Pass user data to the customer controller if needed
+            tableBK.getChildren().setAll(customerRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

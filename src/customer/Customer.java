@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 // import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBox;
+import tableBooking.TableBooking;
 
 public class Customer {
 
@@ -28,13 +29,8 @@ public class Customer {
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         this.userData = userData;
-        // userDataBuilder.append("User Data:\n");
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
-        // userDataBuilder.append("Email:
-        // ").append(userData.getString("userEmail")).append("\n");
-        // userDataBuilder.append("Role:
-        // ").append(userData.getString("roleBox")).append("\n");
         userDataLogin.setText(userDataBuilder.toString());
     }
 
@@ -45,11 +41,14 @@ public class Customer {
 
     @FXML
     private void goToTable() throws SQLException {
-        System.out.println(userData.getString("firstName"));
+        String firstName = userData.getString("firstName"); // Get the firstName from userData
+        System.out.println(firstName);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../tableBooking/TableBooking.fxml"));
             Parent mainPageRoot = loader.load();
-            displayTable.getChildren().setAll(mainPageRoot);
+            TableBooking tableBook = loader.getController();
+            tableBook.setUser(userData);
+            orderPane.getChildren().setAll(mainPageRoot);
         } catch (Exception e) {
             e.printStackTrace();
         }
