@@ -11,8 +11,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../landingPage/LandingPage.fxml"));
+        // Parent root = FXMLLoader.load(getClass().getResource("../customer/Customer.fxml"));
         primaryStage.setTitle("Bits and Bytes");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setScene(new Scene(root, 1000, 720)); // width,height
         primaryStage.show();
         primaryStage.getScene().getRoot().requestFocus();
     }

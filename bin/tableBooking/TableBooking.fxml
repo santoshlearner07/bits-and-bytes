@@ -12,10 +12,10 @@
 <?import javafx.scene.control.TableView?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-    prefHeight="680.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8"
+prefHeight="575" prefWidth="900" xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableBooking.TableBooking">
     <VBox spacing="10" style="-fx-background-color:yellow;">
-        <HBox alignment="CENTER">
+        <HBox alignment="center">
             <Label text="Select the number of seats:" />
             <ComboBox fx:id="seatsComboBox" promptText="Select" />
         </HBox>

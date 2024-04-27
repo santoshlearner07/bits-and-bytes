@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import customer.Customer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import mainPage.MainPage;
+import staff.Chef;
+import staff.DeliveryDriver;
+import staff.Manager;
+import staff.Waiter;
 
 public class Login {
     @FXML
@@ -22,7 +27,7 @@ public class Login {
     private TextField userName;
 
     @FXML
-    private StackPane goToMain;
+    private StackPane goToPage;
 
     private final String databaseURL = "jdbc:mysql://localhost:3306/cafe";
     private final String username = "root";
@@ -45,11 +50,39 @@ public class Login {
             preparedStatement.setString(1, checkUserName);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../mainPage/MainPage.fxml"));
-                Parent mainRoot = loader.load();
-                MainPage mainPageController = loader.getController();
-                mainPageController.setUser(resultSet); // Pass user data to MainPage controller
-                goToMain.getChildren().setAll(mainRoot);
+                String userRole = resultSet.getString("roleBox"); // Assuming the role column name is "roleBox"
+                FXMLLoader loader;
+                if ("Customer".equals(userRole)) {
+                    loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
+                    Parent mainRoot = loader.load();
+                    Customer custController = loader.getController();
+                    custController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else if ("Chef".equals(userRole)) {
+                    loader = new FXMLLoader(getClass().getResource("../staff/Chef.fxml"));
+                    Parent mainRoot = loader.load();
+                    Chef chefController = loader.getController();
+                    chefController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else if ("Manager".equals(userRole)) {
+                    loader = new FXMLLoader(getClass().getResource("../staff/Manager.fxml"));
+                    Parent mainRoot = loader.load();
+                    Manager managerController = loader.getController();
+                    managerController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else if ("Waiters".equals(userRole)) {
+                    loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
+                    Parent mainRoot = loader.load();
+                    Waiter waiterController = loader.getController();
+                    waiterController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else if ("Delivery Driver".equals(userRole)) {
+                    loader = new FXMLLoader(getClass().getResource("../staff/DeliveryDriver.fxml"));
+                    Parent mainRoot = loader.load();
+                    DeliveryDriver ddController = loader.getController();
+                    ddController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                }
             } else {
                 aUser.setText("User name does not exist");
                 System.out.println("Username does not exist in the database.");
@@ -65,7 +98,7 @@ public class Login {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../signUp/SignUp.fxml"));
             Parent loginRoot = loader.load();
-            goToMain.getChildren().setAll(loginRoot);
+            goToPage.getChildren().setAll(loginRoot);
             // contentPane.setPickOnBounds(false);
         } catch (Exception e) {
             e.printStackTrace();

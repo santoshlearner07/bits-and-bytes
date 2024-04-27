@@ -8,59 +8,66 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.ComboBox?>
 <?import java.lang.String?>
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane fx:id="signUpPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-    minWidth="-Infinity"
-    prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8"
+    minWidth="-Infinity" prefHeight="650" prefWidth="1000"
+    xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="signUp.SignUp">
-    <!-- <children> -->
-    <VBox spacing="10"
-    >
-        <!-- style="-fx-background-color:yellow;-fx-border-color:black;"  -->
-        <HBox alignment="CENTER">
-            <Label fx:id="label" text="Label" />
-        </HBox>
-        <HBox alignment="CENTER">
-            <Label text="First Name: " />
-            <TextField fx:id="firstName" promptText="Enter your First Name"
-                onAction="#handleInput" />
-        </HBox>
-        <HBox alignment="CENTER">
-            <Label text="Last Name: " />
-            <TextField fx:id="lastName" promptText="Enter your Last Name"
-                onAction="#handleInput" />
-        </HBox>
-        <HBox alignment="CENTER">
-            <Label text="User Name: " />
-            <TextField fx:id="userName" promptText="Enter your User Name"
-                onAction="#handleInput" />
-        </HBox>
-        <HBox alignment="CENTER">
-            <Label text="User Email: " />
-            <TextField fx:id="userEmail" promptText="Enter your Email"
-                onAction="#handleInput" />
-        </HBox>
-        <HBox alignment="CENTER">
-            <Label text="Select Role type: " />
-            <ComboBox fx:id="roleBox" promptText="Select Role type">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Customer" />
-                        <String fx:value="Manager" />
-                        <String fx:value="Chef" />
-                        <String fx:value="Waiters" />
-                        <String fx:value="Delivery Driver" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-        </HBox>
-        <HBox alignment="CENTER">
-            <Button text="Submit" style="-fx-cursor: hand;" onAction="#handleInput" />
-        </HBox>
-    </VBox>
-    <HBox alignment="CENTER" onMouseClicked="#goToLogin"
-        style="-fx-min-height: 30px; -fx-max-height: 30px;">
-        <Label text="Already a User? " style="-fx-text-decoration: underline; -fx-cursor: hand;" />
-    </HBox>
+    <StackPane>
+        <ImageView fitWidth="1100" fitHeight="600">
+            <image>
+                <Image url="@../images/sign.jpeg" />
+            </image>
+        </ImageView>
+        <VBox alignment="CENTER" spacing="20" style="-fx-font-size:15px;-fx-font-weight:bold;">
+            <HBox alignment="CENTER" spacing="10">
+                <Label fx:id="label" text="Label" style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill:#FFFAF0;" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="First Name: " style="-fx-text-fill:#FFFAF0;"/>
+                <TextField fx:id="firstName" promptText="Enter your First Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="Last Name: " style="-fx-text-fill:#FFFAF0;"/>
+                <TextField fx:id="lastName" promptText="Enter your Last Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="User Name: " style="-fx-text-fill:#FFFAF0;" />
+                <TextField fx:id="userName" promptText="Enter your User Name"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="User Email: " style="-fx-text-fill:#FFFAF0;"/>
+                <TextField fx:id="userEmail" promptText="Enter your Email"
+                    onAction="#handleInput" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="Select Role type: " style="-fx-text-fill:#FFFAF0;"/>
+                <ComboBox fx:id="roleBox" promptText="Select Role type">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Customer" />
+                            <String fx:value="Manager" />
+                            <String fx:value="Chef" />
+                            <String fx:value="Waiters" />
+                            <String fx:value="Delivery Driver" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10"
+                style="-fx-cursor: hand;-fx-font-size:15px;-fx-font-weight:bold;">
+                <Button text="Submit" style="-fx-cursor: hand;-fx-background-color: #FFEFD5;-fx-background-radius: 10px;" onAction="#handleInput" />
+            </HBox>
+            <HBox onMouseClicked="#goToLogin"
+                style="-fx-min-height: 30px; -fx-max-height: 30px;" alignment="CENTER" spacing="10">
+                <Label text="Already a User? "
+                    style="-fx-cursor: hand;-fx-font-size:15px;-fx-text-fill: #1fa081;-fx-font-weight:bold;" />
+            </HBox>
+        </VBox>
+    </StackPane>
 </StackPane>

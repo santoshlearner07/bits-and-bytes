@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<StackPane fx:id="goToMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-    minWidth="-Infinity"
-    prefHeight="250.0" prefWidth="250.0"
+<StackPane fx:id="goToPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+    minWidth="-Infinity" prefHeight="650" prefWidth="1000"
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="login.Login"
->
-    <VBox layoutX="250.0" layoutY="250.0" spacing="10"
-    >
-        <!-- style="-fx-background-color:#007bff" -->
-        <HBox alignment="CENTER">
-            <Label fx:id="aUser" text="Hello! User." />
+    fx:controller="login.Login">
+    <ImageView fitWidth="1100" fitHeight="600">
+        <image>
+            <Image url="@../images/login.jpeg" />
+        </image>
+    </ImageView>
+    <VBox spacing="20" alignment="CENTER">
+        <HBox alignment="center">
+            <Label fx:id="aUser" text="Hello! User." style="-fx-font-weight:bold;-fx-font-size:25px;-fx-text-fill: #FFEFD5;" />
         </HBox>
-        <HBox alignment="CENTER">
-            <Label text="User Name" />
+        <HBox alignment="center" spacing="10">
+            <Label text="User Name: " style="-fx-font-weight:bold;-fx-font-size:22px;-fx-text-fill: #FFEFD5;"/>
             <TextField fx:id="userName" promptText="Enter your user name...."
                 onAction="#handleLogin" />
         </HBox>
-        <HBox alignment="CENTER">
-            <Button text="Submit" onAction="#handleLogin" />
+        <HBox alignment="center" >
+            <Button text="Submit" onAction="#handleLogin" style="-fx-cursor: hand;-fx-font-size:15px;-fx-background-color: #FFEFD5;-fx-background-radius: 10px;" />
+        </HBox>
+        <HBox alignment="center" onMouseClicked="#goToSignUp"
+            style="-fx-min-height: 30px; -fx-max-height: 30px;">
+            <Label text="Not an user. Create your account."
+                style="-fx-cursor: hand;-fx-font-size:15px;-fx-text-fill: #FFF0F5;-fx-font-weight:bold;" />
         </HBox>
     </VBox>
-    <HBox alignment="CENTER" onMouseClicked="#goToSignUp"
-        style="-fx-min-height: 30px; -fx-max-height: 30px;">
-        <Label text="Become an User." style="-fx-text-decoration: underline; -fx-cursor: hand;" />
-    </HBox>
 </StackPane>

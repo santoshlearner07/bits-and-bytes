@@ -9,19 +9,22 @@
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
     minWidth="-Infinity"
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="landingPage.LandingPage">
-
-    <ImageView fitWidth="1500" fitHeight="1500">
-        <image>
-            <Image url="@../images/BackgroundImage.jpg" />
-        </image>
-    </ImageView>
-
-    <StackPane fx:id="contentPane">
-        <VBox style="-fx-min-height: 30px; -fx-max-height: 30px;">
-            <HBox alignment="CENTER">
-                <Button text="Sign Up" onAction="#signUpPage" />
-                <Button text="Login" onAction="#loginPage" />
+    fx:controller="landingPage.LandingPage" style="-fx-background-color:#FFE4E1">
+    <HBox style=" -fx-cursor: hand;-fx-font-size:30px;-fx-font-weight:bold;" spacing="10" alignment="TOP_CENTER">
+        <Button text="Cafe94 - Bits And Bytes" style="-fx-background-color:transparent;" />
+    </HBox>
+    <StackPane fx:id="contentPane" style=" -fx-margin-top: 30px;" >
+        <ImageView fitWidth="1100" fitHeight="600">
+            <image>
+                <Image url="@../images/bgImage.jpg" />
+            </image>
+        </ImageView>
+        <VBox style="-fx-min-height: 100px; -fx-max-height: 100px;">
+            <HBox style=" -fx-cursor: hand;-fx-font-size:20px;" spacing="10" alignment="CENTER">
+                <Button text="Sign Up" onAction="#signUpPage"
+                    style="-fx-background-color: #FFEFD5;-fx-background-radius: 10px;" />
+                <Button text="Login" onAction="#loginPage"
+                    style="-fx-background-color: #FFEFD5;-fx-background-radius: 10px;" />
             </HBox>
         </VBox>
     </StackPane>
