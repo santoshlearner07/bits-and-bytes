@@ -14,10 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import mainPage.MainPage;
-import staff.Chef;
-import staff.DeliveryDriver;
-import staff.Manager;
-import staff.Waiter;
+import staff.StaffController;
 import tableBooking.TableBooking;
 
 public class Login {
@@ -59,31 +56,13 @@ public class Login {
                     Customer custController = loader.getController();
                     custController.setUser(resultSet);
                     goToPage.getChildren().setAll(mainRoot);
-                } else if ("Chef".equals(userRole)) {
-                    loader = new FXMLLoader(getClass().getResource("../staff/Chef.fxml"));
-                    Parent mainRoot = loader.load();
-                    Chef chefController = loader.getController();
-                    chefController.setUser(resultSet);
-                    goToPage.getChildren().setAll(mainRoot);
-                } else if ("Manager".equals(userRole)) {
+                }  else if ("Manager".equals(userRole)) {
                     loader = new FXMLLoader(getClass().getResource("../staff/Manager.fxml"));
                     Parent mainRoot = loader.load();
-                    Manager managerController = loader.getController();
+                    StaffController managerController = loader.getController();
                     managerController.setUser(resultSet);
                     goToPage.getChildren().setAll(mainRoot);
-                } else if ("Waiters".equals(userRole)) {
-                    loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
-                    Parent mainRoot = loader.load();
-                    Waiter waiterController = loader.getController();
-                    waiterController.setUser(resultSet);
-                    goToPage.getChildren().setAll(mainRoot);
-                } else if ("Delivery Driver".equals(userRole)) {
-                    loader = new FXMLLoader(getClass().getResource("../staff/DeliveryDriver.fxml"));
-                    Parent mainRoot = loader.load();
-                    DeliveryDriver ddController = loader.getController();
-                    ddController.setUser(resultSet);
-                    goToPage.getChildren().setAll(mainRoot);
-                }
+                } 
             } else {
                 aUser.setText("User name does not exist");
                 System.out.println("Username does not exist in the database.");
