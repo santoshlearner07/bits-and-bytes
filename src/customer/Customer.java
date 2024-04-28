@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 // import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBox;
+import order.Menu;
 import tableBooking.TableBooking;
 
 public class Customer {
@@ -37,6 +38,21 @@ public class Customer {
     @FXML
     private void customerClick() {
         System.out.println("Clicked");
+    }
+
+    @FXML
+    private void goToMenu() throws SQLException {
+        String firstName = userData.getString("firstName"); // Get the firstName from userData
+        System.out.println(firstName);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../order/Menu.fxml"));
+            Parent mainPageRoot = loader.load();
+            Menu tableBook = loader.getController();
+            tableBook.setUser(userData);
+            orderPane.getChildren().setAll(mainPageRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
