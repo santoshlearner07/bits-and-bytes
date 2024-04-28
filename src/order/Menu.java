@@ -67,9 +67,11 @@ public class Menu implements Initializable {
     private void addItem(String name, String price) {
         // Create a new menu item label
         Label menuItemLabel = new Label(name + " - " + price);
-
+        menuItemLabel.setStyle("-fx-font-size: 16px;");
+        menuItemLabel.setPrefWidth(250);
         // Create a button to add the item to the order list
         Button addButton = new Button("Add to Basket");
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 15px;-fx-cursor: hand;");
         addButton.setOnAction(event -> {
             addToOrder(name, price);
         });

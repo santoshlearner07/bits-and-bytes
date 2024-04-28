@@ -14,17 +14,16 @@
 <StackPane fx:id="orderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
     minWidth="-Infinity" xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.Menu">
-    <VBox style="-fx-background-color:#de001c" prefWidth="900">
+    <VBox prefWidth="900">
         <HBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER">
             <Label text="Menu" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
         </HBox>
         <HBox alignment="CENTER">
-            <VBox prefWidth="400">
-                <VBox fx:id="menuItemsContainer" spacing="10"
-                    style="-fx-background-color:#00de15;-fx-padding:20" />
+            <VBox prefWidth="400" style="-fx-background-color:#ffcc99;-fx-padding:20">
+                <VBox fx:id="menuItemsContainer" spacing="10" />
             </VBox>
-            <VBox style="-fx-background-color:#2aab36;-fx-padding:20">
-                <ListView fx:id="orderListView" />
+            <VBox style="-fx-background-color:#ffa07a;-fx-padding:20;">
+                <ListView fx:id="orderListView" style="-fx-font-size:16px;-fx-font-weight: bold; -fx-text-fill: white; " />
             </VBox>
         </HBox>
     </VBox>
