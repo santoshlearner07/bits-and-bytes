@@ -30,10 +30,10 @@ public class SignUp {
     private TextField userName;
 
     @FXML
-    private TextField userEmail;
+    private TextField address;
 
-    @FXML
-    private ComboBox<String> roleBox;
+    // @FXML
+    // private ComboBox<String> roleBox;
 
     @FXML
     private StackPane signUpPane;
@@ -60,21 +60,21 @@ public class SignUp {
         }
     }
 
-    private void insertSignUpData(String firstName, String lastName, String userName, String userEmail, String roleBox)
+    private void insertSignUpData(String firstName, String lastName, String userName, String address)
             throws SQLException {
         connect();
-        if (checkIfUserExists(userName, userEmail)) {
-            showAlert("Error", "Username or email already exists.");
+        if (checkIfUserExists(userName)) {
+            showAlert("Error", "Username already exists.");
             return;
         }
-        String insertQuery = "INSERT INTO signup(firstName,lastName,userName,userEmail,roleBox) VALUES (?,?,?,?,?)";
+        String insertQuery = "INSERT INTO signup(firstName,lastName,userName,address,roleBox) VALUES (?,?,?,?,?)";
         try {
             preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, userName);
-            preparedStatement.setString(4, userEmail);
-            preparedStatement.setString(5, roleBox);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, "Customer");
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Data inserted");
@@ -97,13 +97,13 @@ public class SignUp {
         String inputFirstName = firstName.getText();
         String inputLastName = lastName.getText();
         String inputUserName = userName.getText();
-        String inputUserEmail = userEmail.getText();
-        String selectedRole = roleBox.getValue();
+        String inputUserEmail = address.getText();
+        // String selectedRole = roleBox.getValue();
 
         try {
             if (inputFirstName.length() >= 3 && inputLastName.length() >= 1 && inputUserName.length() >= 3
-                    && inputUserEmail.length() >= 7 && roleBox.getValue() != null) {
-                insertSignUpData(inputFirstName, inputLastName, inputUserName, inputUserEmail, selectedRole);
+                    && inputUserEmail.length() >= 7) {
+                insertSignUpData(inputFirstName, inputLastName, inputUserName, inputUserEmail);
                 showAlert("Added", "User Added");
                 goToLogin();
             } else {
@@ -116,8 +116,8 @@ public class SignUp {
         firstName.clear();
         lastName.clear();
         userName.clear();
-        userEmail.clear();
-        roleBox.setValue(null);
+        address.clear();
+        // roleBox.setValue(null);
     }
 
     @FXML
@@ -138,13 +138,13 @@ public class SignUp {
         alert.showAndWait();
     }
 
-    private boolean checkIfUserExists(String userName, String userEmail) throws SQLException {
+    private boolean checkIfUserExists(String userName) throws SQLException {
         connect();
-        String query = "SELECT COUNT(*) AS count FROM signup WHERE userName = ? OR userEmail = ?";
+        String query = "SELECT COUNT(*) AS count FROM signup WHERE userName = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userEmail);
+            // preparedStatement.setString(2, address);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt("count");

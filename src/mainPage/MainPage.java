@@ -23,7 +23,7 @@ public class MainPage {
         userDataBuilder.append("User Data:\n");
         userDataBuilder.append("First Name: ").append(userData.getString("firstName")).append("\n");
         userDataBuilder.append("Last Name: ").append(userData.getString("lastName")).append("\n");
-        userDataBuilder.append("Email: ").append(userData.getString("userEmail")).append("\n");
+        userDataBuilder.append("Email: ").append(userData.getString("address")).append("\n");
         userDataBuilder.append("Role: ").append(userData.getString("roleBox")).append("\n");
         userDataLabel.setText(userDataBuilder.toString());
     }
