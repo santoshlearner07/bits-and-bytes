@@ -33,7 +33,6 @@ public class Menu implements Initializable {
     private final String password = "san7@SQL";
     private final String PENDING = "pending";
 
-
     private String firstName;
     @FXML
     private VBox menuItemsContainer;
@@ -158,6 +157,15 @@ public class Menu implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText("Order placed");
         alert.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
+            Parent mainPageRoot = loader.load();
+            Customer custController = loader.getController();
+            custController.setUser(userData);
+            orderPane.getChildren().setAll(mainPageRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

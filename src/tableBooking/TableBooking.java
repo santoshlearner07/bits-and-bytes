@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 import customer.Customer;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,8 +25,9 @@ public class TableBooking {
     private final String DATABASE_URL = "jdbc:mysql://localhost:3306/cafe";
     private final String USERNAME = "root";
     private final String PASSWORD = "san7@SQL";
-    private final String CUSTOMER_TABLE_BOOKED = "INSERT INTO tableBookingInfo (name, tableSeat, tblBkDt,tblBkTime) VALUES (?, ?, ?, ?)";
+    private final String CUSTOMER_TABLE_BOOKED = "INSERT INTO tableBookingInfo (name, tableSeat, tblBkDt,tblBkTime, tableStatus) VALUES (?, ?, ?, ?,?)";
 
+    private String firstName;
     @FXML
     private ComboBox<String> seatsComboBox;
 
@@ -52,7 +54,7 @@ public class TableBooking {
     @FXML
     public void initialize() {
         seatsComboBox.setItems(FXCollections.observableArrayList(
-                "2 seats", "4 seats", "8 seats", "10 seats", "11 seats"));
+                "2 seats", "4 seats", "8 seats", "10 seats"));
 
         timeComboBox.setItems(FXCollections.observableArrayList(
                 "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM",
@@ -70,41 +72,10 @@ public class TableBooking {
         });
     }
 
-    // @FXML
-    // public void bookATable() throws SQLException {
-    // String selectedSeats = seatsComboBox.getValue();
-    // String selectedTime = timeComboBox.getValue();
-    // if (selectedSeats != null && !selectedSeats.isEmpty() && selectedTime != null
-    // && !selectedTime.isEmpty()) {
-    // int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
-    // int selectedBookingTime = Integer.parseInt(selectedTime.split(" ")[0]);
-    // System.out.println(selectedSeatsCount + " -- " + selectedBookingTime + " -- "
-    // + userData.getString("firstName"));
-    // try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME,
-    // PASSWORD)) {
-    // // String sql = TABLE_BOOKED;
-    // // try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-    // // stmt.setInt(1, selectedSeatsCount);
-    // // int rowsUpdated = stmt.executeUpdate();
-    // // availabilityLabel
-    // // .setText("Table Booked");
-    // // if (rowsUpdated > 0) {
-    // // System.out.println("Table booked successfully.");
-    // // } else {
-    // // System.out.println("Failed to book the table.");
-    // // }
-    // // }
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-    // } else {
-    // System.out.println("Wrong");
-    // }
-    // }
-
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         this.userData = userData;
+        this.firstName = userData.getString("firstName");
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
     }
@@ -124,7 +95,7 @@ public class TableBooking {
                 selectedTime != null && !selectedTime.isEmpty() &&
                 selectedDate != null) {
             int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
-            String userName = userData.getString("firstName") + " " + userData.getString("lastName");
+            String userName = userData.getString("firstName");
 
             try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
                 try (PreparedStatement stmt = conn.prepareStatement(CUSTOMER_TABLE_BOOKED)) {
@@ -132,13 +103,14 @@ public class TableBooking {
                     stmt.setInt(2, selectedSeatsCount);
                     stmt.setDate(3, java.sql.Date.valueOf(selectedDate));
                     stmt.setString(4, selectedTime);
+                    stmt.setString(5, "pending");
                     int rowsUpdated = stmt.executeUpdate();
                     if (rowsUpdated > 0) {
                         System.out.println("Table booked successfully.");
                         seatsComboBox.setValue(null);
                         timeComboBox.setValue(null);
                         datePicker.setValue(null);
-                        bookingStatus.setText("Table booked.");
+                        bookingStatus.setText("Table booked, waiting for manager approval.");
                     } else {
                         System.out.println("Failed to book the table.");
                         bookingStatus.setText("Fill every field.");

@@ -32,9 +32,6 @@ public class SignUp {
     @FXML
     private TextField address;
 
-    // @FXML
-    // private ComboBox<String> roleBox;
-
     @FXML
     private StackPane signUpPane;
 
@@ -98,7 +95,6 @@ public class SignUp {
         String inputLastName = lastName.getText();
         String inputUserName = userName.getText();
         String inputUserEmail = address.getText();
-        // String selectedRole = roleBox.getValue();
 
         try {
             if (inputFirstName.length() >= 3 && inputLastName.length() >= 1 && inputUserName.length() >= 3
@@ -117,7 +113,6 @@ public class SignUp {
         lastName.clear();
         userName.clear();
         address.clear();
-        // roleBox.setValue(null);
     }
 
     @FXML
@@ -144,7 +139,6 @@ public class SignUp {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, userName);
-            // preparedStatement.setString(2, address);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt("count");

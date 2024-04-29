@@ -17,7 +17,11 @@
                 style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill: #40E0D0;" />
         </HBox>
     </VBox>
-
+    <VBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER"  style="-fx-padding: 40 0 0 0">
+        <HBox alignment="CENTER">
+            <Label text="" fx:id="tableBKStatus" />
+        </HBox>
+    </VBox>
     <VBox fx:id="displayTable" style="-fx-padding: 40 0 0 0;" StackPane.alignment="CENTER">
         <HBox alignment="TOP_LEFT" onMouseClicked="#goToMenu">
             <ImageView fitWidth="300" fitHeight="180">
