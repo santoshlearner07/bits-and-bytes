@@ -11,7 +11,7 @@
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="landingPage.LandingPage" style="-fx-background-color:#FFE4E1">
     <HBox style=" -fx-cursor: hand;-fx-font-size:30px;-fx-font-weight:bold;" spacing="10" alignment="TOP_CENTER">
-        <Button text="Cafe94 - Bits And Bytes" style="-fx-background-color:transparent;" />
+        <Button text="Cafe94 - Bites And Bytes" style="-fx-background-color:transparent;" />
     </HBox>
     <StackPane fx:id="contentPane" style=" -fx-margin-top: 30px;" >
         <ImageView fitWidth="1100" fitHeight="600">

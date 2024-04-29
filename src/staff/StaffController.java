@@ -3,17 +3,24 @@ package staff;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.sql.*;
 
 public class StaffController {
+
+    // @FXML
+    // private StackPane managerView;
 
     @FXML
     private Label statusLabel;
@@ -111,6 +118,7 @@ private void handleAddStaff() {
         
         // Add new staff member to the database
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
+            // Prepare the SQL statement
             String insertQuery = "INSERT INTO Staff (FirstName, LastName, Role, HoursToWork, TotalHoursWorked) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, firstNameField.getText());
@@ -119,6 +127,7 @@ private void handleAddStaff() {
             preparedStatement.setInt(4, Integer.parseInt(hoursToWorkField.getText()));
             preparedStatement.setInt(5, Integer.parseInt(totalHoursWorkedField.getText()));
 
+            // Execute the statement
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -247,15 +256,48 @@ private boolean staffExists(String firstName, String lastName) throws SQLExcepti
     }
 
     @FXML
-    private void handleViewStaff() {
-        // Toggle visibility of TableView
-        staffTableView.setVisible(!staffTableView.isVisible());
+private void handleViewStaff() {
+    // Toggle visibility of TableView
+    staffTableView.setVisible(!staffTableView.isVisible());
 
-        // If TableView is visible, load staff data from the database
-        if (staffTableView.isVisible()) {
-            loadStaffDataFromDatabase();
-        }
+    // If TableView is visible, load staff data from the database
+    if (staffTableView.isVisible()) {
+        // Add staff members from the signup table to the Staff table
+        addStaffFromSignupTableToStaffTable();
+
+        // Load staff data from the Staff table
+        loadStaffDataFromDatabase();
     }
+}
+private void addStaffFromSignupTableToStaffTable() {
+    try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
+        String selectSignupQuery = "SELECT firstName, lastName, roleBox FROM signup WHERE roleBox != 'Customer' AND NOT EXISTS (SELECT 1 FROM Staff WHERE Staff.FirstName = signup.firstName AND Staff.LastName = signup.lastName)";
+        try (PreparedStatement selectStatement = connection.prepareStatement(selectSignupQuery);
+             ResultSet resultSet = selectStatement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String role = resultSet.getString("roleBox");
+
+                // Add staff member to the Staff table
+                try (PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Staff (FirstName, LastName, Role, HoursToWork, TotalHoursWorked) VALUES (?, ?, ?, ?, ?)")) {
+                    insertStatement.setString(1, firstName);
+                    insertStatement.setString(2, lastName);
+                    insertStatement.setString(3, role);
+                    insertStatement.setInt(4, 40); // Default hours to work
+                    insertStatement.setInt(5, 0); // Default total hours worked
+                    
+                    insertStatement.executeUpdate();
+                }
+            }
+        }
+    } catch (SQLException e) {
+        statusLabel.setText("Error: " + e.getMessage());
+    }
+}
+
+
 
     private void handleTableViewSelection() {
         // Get the selected staff member
@@ -292,4 +334,18 @@ private boolean staffExists(String firstName, String lastName) throws SQLExcepti
             statusLabel.setText("Error: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void logout(){
+        // try {
+        //     FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+        //     Parent mainPageRoot = loader.load();
+        //     managerView.getChildren().setAll(mainPageRoot);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        System.out.println("StaffController.logout()");
+    }
+
+
 }
