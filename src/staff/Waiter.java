@@ -43,7 +43,7 @@ public class Waiter {
 
     private void fetchAllOrders() {
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
-            String sql = "SELECT * FROM orders WHERE status = 'pending'";
+            String sql = "SELECT * FROM orders WHERE status = 'pending' AND foodPrepStatus = 'Complete'";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     ObservableList<String> items = FXCollections.observableArrayList();

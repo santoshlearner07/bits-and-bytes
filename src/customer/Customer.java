@@ -5,9 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -40,7 +45,8 @@ public class Customer {
     private ResultSet userData;
 
     /**
-     *Method to receive user data from Login controller
+     * Method to receive user data from Login controller
+     * 
      * @param userData whole userData is getting fetched on input term userData
      * @throws SQLException
      */
@@ -88,7 +94,9 @@ public class Customer {
     }
 
     /**
-     * once the user clicks on Menu image it will redirect user to Menu.fxml UI where he can see all the menu list to order
+     * once the user clicks on Menu image it will redirect user to Menu.fxml UI
+     * where he can see all the menu list to order
+     * 
      * @throws SQLException
      */
     @FXML
@@ -103,10 +111,13 @@ public class Customer {
             e.printStackTrace();
         }
     }
-/**
-* once the user clicks on Table image it will redirect user to Table.fxml UI where he can book table of his choice
- * @throws SQLException
- */
+
+    /**
+     * once the user clicks on Table image it will redirect user to Table.fxml UI
+     * where he can book table of his choice
+     * 
+     * @throws SQLException
+     */
     @FXML
     private void goToTable() throws SQLException {
         try {
@@ -119,10 +130,12 @@ public class Customer {
             e.printStackTrace();
         }
     }
-/**
- * once the user clicks on Logout button it will redirect user to Login.fxml UI
- * @throws SQLException
- */
+
+    /**
+     * once the user clicks on Logout button it will redirect user to Login.fxml UI
+     * 
+     * @throws SQLException
+     */
     @FXML
     private void logout() throws SQLException {
         System.out.println("Logged out " + userData.getString("firstName"));
@@ -135,4 +148,37 @@ public class Customer {
         }
     }
 
+    @FXML
+    private void getOrders() {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
+            String sql = "SELECT * FROM orders WHERE custName = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, firstName);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    StringBuilder orderDetails = new StringBuilder();
+                    while (resultSet.next()) {
+                        String itemName = resultSet.getString("item_name");
+                        String itemPrice = resultSet.getString("item_price");
+                        orderDetails.append(itemName).append(" - ").append(itemPrice).append("\n");
+                    }
+                    if (orderDetails.length() > 0) {
+                        displayOrderPopup(orderDetails.toString());
+                    } else {
+                        // System.out.println("No orders found for the customer.");
+                        displayOrderPopup("No orders found for the customer.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayOrderPopup(String orderDetails) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Order Details");
+        alert.setHeaderText("Order items for " + firstName + ":");
+        alert.setContentText(orderDetails);
+        alert.showAndWait();
+    }
 }

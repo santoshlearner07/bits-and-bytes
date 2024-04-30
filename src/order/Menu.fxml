@@ -10,7 +10,6 @@
 <?import javafx.scene.control.ListView?>
 <?import java.lang.String?>
 
-
 <StackPane fx:id="orderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
     minWidth="-Infinity" xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="order.Menu">
@@ -20,27 +19,31 @@
         </HBox>
         <HBox alignment="CENTER">
             <HBox>
-                <Button text ="Back" style="-fx-border-radius: 15px;-fx-background-color:#01796f" onAction="#goBack"/>
+                <Button text="Back" style="-fx-border-radius: 15px;-fx-background-color:#01796f" onAction="#goBack" />
             </HBox>
             <VBox prefWidth="400" style="-fx-background-color:#ffcc99;-fx-padding:20">
                 <VBox fx:id="menuItemsContainer" spacing="10" />
             </VBox>
             <VBox style="-fx-background-color:#ffa07a;-fx-padding:20;">
-                <ListView fx:id="orderListView" style="-fx-font-size:16px;-fx-font-weight: bold; -fx-text-fill: white; " />
+                <ListView fx:id="orderListView"
+                    style="-fx-font-size:16px;-fx-font-weight: bold; -fx-text-fill: white; " />
             </VBox>
             <VBox style="-fx-padding:200 0 0 10;" spacing="20">
-                <HBox style="" prefHeight="25" >
-                    <Button text ="Dine-In" style="-fx-border-radius: 25px;-fx-background-color:#228B22" onAction="#placeOrder"/>
+                <HBox style="" prefHeight="25">
+                    <Button text="Dine-In" style="-fx-border-radius: 25px;-fx-background-color:#228B22"
+                        onAction="#placeOrder" />
                 </HBox>
-                <HBox style="" prefHeight="25" >
-                    <Button text ="Take-Away" style="-fx-border-radius: 25px;-fx-background-color:#FFD700" onAction="#placeOrder"/>
+                <HBox style="" prefHeight="25">
+                    <Button text="Take-Away" style="-fx-border-radius: 25px;-fx-background-color:#FFD700"
+                        onAction="#placeOrder" />
                 </HBox>
-                <HBox style="" prefHeight="25" >
-                    <Button text ="Delivery" style="-fx-border-radius: 25px;-fx-background-color:#9932CC" onAction="#placeOrder"/>
+                <HBox style="" prefHeight="25">
+                    <Button text="Delivery" style="-fx-border-radius: 25px;-fx-background-color:#9932CC"
+                        onAction="#placeOrder" />
                 </HBox>
             </VBox>
-            <HBox style="-fx-padding:500 0 0 10;" >
-                <Button text ="Logout" style="-fx-border-radius: 15px;-fx-background-color:#ff4500" onAction="#logout"/>
+            <HBox style="-fx-padding:500 0 0 10;">
+                <Button text="Logout" style="-fx-border-radius: 15px;-fx-background-color:#ff4500" onAction="#logout" />
             </HBox>
         </HBox>
     </VBox>
