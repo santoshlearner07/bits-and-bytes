@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import mainPage.MainPage;
 import staff.StaffController;
+import staff.Waiter;
 import tableBooking.TableBooking;
 
 public class Login {
@@ -60,6 +61,14 @@ public class Login {
                     loader = new FXMLLoader(getClass().getResource("../staff/Manager.fxml"));
                     Parent mainRoot = loader.load();
                     StaffController managerController = loader.getController();
+                    managerController.setUser(resultSet);
+                    goToPage.getChildren().setAll(mainRoot);
+                } 
+                else if ("Waiter".equals(userRole)) {
+                    System.out.println(userRole);
+                    loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
+                    Parent mainRoot = loader.load();
+                    Waiter managerController = loader.getController();
                     managerController.setUser(resultSet);
                     goToPage.getChildren().setAll(mainRoot);
                 } 

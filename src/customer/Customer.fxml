@@ -17,35 +17,35 @@
                 style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill: #40E0D0;" />
         </HBox>
     </VBox>
-    <VBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER"  style="-fx-padding: 40 0 0 0">
+    <VBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER"  style="-fx-padding: 40 0 0 100">
         <HBox alignment="CENTER">
-            <Label text="" fx:id="tableBKStatus" />
+            <Label text="" fx:id="tableBKStatus" style="-fx-font-size:15px"/>
         </HBox>
     </VBox>
     <VBox fx:id="displayTable" style="-fx-padding: 40 0 0 0;" StackPane.alignment="CENTER">
         <HBox alignment="TOP_LEFT" onMouseClicked="#goToMenu">
-            <ImageView fitWidth="300" fitHeight="180">
+            <ImageView fitWidth="400" fitHeight="270">
                 <image>
                     <Image url="@../images/menu.jpeg" />
                 </image>
             </ImageView>
         </HBox>
-
+        
         <HBox alignment="TOP_RIGHT" onMouseClicked="#goToTable">
-            <ImageView fitWidth="300" fitHeight="180">
+            <ImageView fitWidth="400" fitHeight="270">
                 <image>
                     <Image url="@../images/table.jpeg" />
                 </image>
             </ImageView>
         </HBox>
 
-        <HBox alignment="BOTTOM_LEFT" onMouseClicked="#goToTable">
+        <!-- <HBox alignment="BOTTOM_LEFT" onMouseClicked="#goToTable">
             <ImageView fitWidth="300" fitHeight="180">
                 <image>
                     <Image url="@../images/event.jpeg" />
                 </image>
             </ImageView>
-        </HBox>
+        </HBox> -->
 
         <!-- <HBox alignment="BOTTOM_RIGHT"
             style="-fx-background-color:#ff6666;">
@@ -54,7 +54,7 @@
     </VBox>
 
     <VBox alignment="BOTTOM_CENTER" StackPane.alignment="BOTTOM_CENTER"
-        style="-fx-padding: 0 0 0 750;" maxHeight="40" maxWidth="-Infinity" minHeight="40"
+        style="-fx-padding: 0 0 0 0;" maxHeight="40" maxWidth="-Infinity" minHeight="40"
         minWidth="-Infinity">
         <HBox alignment="CENTER">
             <Button text="Logout" onAction="#logout"
