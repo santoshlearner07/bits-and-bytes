@@ -35,7 +35,7 @@
                 </HBox>
                 <HBox style="" prefHeight="25">
                     <Button text="Take-Away" style="-fx-border-radius: 25px;-fx-background-color:#FFD700"
-                        onAction="#placeOrder" />
+                        onAction="#takeAway" />
                 </HBox>
                 <HBox style="" prefHeight="25">
                     <Button text="Delivery" style="-fx-border-radius: 25px;-fx-background-color:#9932CC"
