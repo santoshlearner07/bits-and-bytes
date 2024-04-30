@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 
@@ -22,8 +24,8 @@ public class Waiter {
 
     private String firstName;
 
-@FXML
-private StackPane goToPage;
+    @FXML
+    private StackPane goToPage;
 
     @FXML
     private ListView<String> orderListView;
@@ -41,7 +43,7 @@ private StackPane goToPage;
 
     private void fetchAllOrders() {
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
-            String sql =  "SELECT * FROM orders WHERE status = 'pending'";
+            String sql = "SELECT * FROM orders WHERE status = 'pending'";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     ObservableList<String> items = FXCollections.observableArrayList();
@@ -49,7 +51,8 @@ private StackPane goToPage;
                         String itemName = resultSet.getString("item_name");
                         String custName = resultSet.getString("custName");
                         String status = resultSet.getString("status");
-                        items.add("Customer Name:- " + custName + " -> Order - " + itemName + " - " + " Status: " + status);
+                        items.add("Customer Name:- " + custName + " -> Order - " + itemName + " - " + " Status: "
+                                + status);
                     }
                     orderListView.setItems(items);
                     System.out.println("Order list updated from the database.");
@@ -63,14 +66,13 @@ private StackPane goToPage;
     @FXML
     private void completeOrder() {
         String selectedOrder = orderListView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedOrder);
         if (selectedOrder != null) {
             String[] parts = selectedOrder.split(" -> ");
             String[] orderInfo = parts[1].split(" - ");
             String itemName = orderInfo[1];
             String customerNameWithPrefix = parts[0];
             String customerName = customerNameWithPrefix.substring(customerNameWithPrefix.indexOf(":-") + 3).trim();
-            
+
             try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
                 String sql = "UPDATE orders SET status = 'Completed' WHERE custName = ? AND item_name = ?";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -78,10 +80,13 @@ private StackPane goToPage;
                     statement.setString(2, itemName);
                     int rowsUpdated = statement.executeUpdate();
                     if (rowsUpdated > 0) {
-                        System.out.println("Order status updated to 'Completed'.");
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Order Completed");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Order Completed. Delivered it to Table");
+                        alert.showAndWait();
                         fetchAllOrders(); // Refresh order list
                     } else {
-                        System.out.println(customerName + "--" + itemName);
                         System.out.println("Failed to update order status.");
                     }
                 }
@@ -90,15 +95,15 @@ private StackPane goToPage;
             }
         }
     }
+
     @FXML
-    private void logout(){
+    private void logout() {
         try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
-                Parent mainPageRoot = loader.load();
-                goToPage.getChildren().setAll(mainPageRoot);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+            Parent mainPageRoot = loader.load();
+            goToPage.getChildren().setAll(mainPageRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
-

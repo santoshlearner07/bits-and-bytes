@@ -344,7 +344,6 @@ private void addStaffFromSignupTableToStaffTable() {
         // } catch (Exception e) {
         //     e.printStackTrace();
         // }
-        System.out.println("StaffController.logout()");
     }
 
 

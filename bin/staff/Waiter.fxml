@@ -12,11 +12,9 @@
 <StackPane fx:id="goToPage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="staff.Waiter">
 
-    <VBox style="-fx-padding: 50 0 0 0" alignment="CENTER" >
+    <VBox style="-fx-padding: 50 0 0 0" alignment="CENTER" spacing="20">
         <ListView fx:id="orderListView" style="-fx-font-size:14px;-fx-font-weight: bold;" maxWidth="700" />
-        <Button text="Complete Order" onAction="#completeOrder" style="-fx-background-color:#00a550"/>
-    </VBox>
-    <VBox style="-fx-padding: 0 0 50 0" alignment="BOTTOM_CENTER">
-        <Button text="Logout" style="-fx-background-color:#c80815" onAction="#logout"/>
+        <Button text="Complete Order" onAction="#completeOrder" />
+        <Button text="Logout"  style="-fx-background-color:#c80815" onAction="#logout" />
     </VBox>
 </StackPane>

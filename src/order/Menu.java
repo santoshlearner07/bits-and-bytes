@@ -3,7 +3,6 @@ package order;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import customer.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,12 +24,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Menu Class handels the display menu, placing an order, going back to customer page and logging out  
+ */
 public class Menu implements Initializable {
 
-    private final String databaseURL = "jdbc:mysql://localhost:3306/cafe";
-    private final String username = "root";
-    private final String password = "san7@SQL";
+    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/cafe";
+    private final String USERNAME = "root";
+    private final String PASSWORD = "san7@SQL";
     private final String PENDING = "pending";
 
     private String firstName;
@@ -45,6 +46,9 @@ public class Menu implements Initializable {
     @FXML
     private ListView orderListView;
 
+    /**
+     * preDefined menu item and price
+     */
     private MenuItem[] menuItems = {
             new MenuItem("Pizza", "£10"),
             new MenuItem("Burger", "£8"),
@@ -62,6 +66,9 @@ public class Menu implements Initializable {
 
     private List<String> orderList = new ArrayList();
 
+    /**
+     * 
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Load menu items from the menuItems array
@@ -76,6 +83,11 @@ public class Menu implements Initializable {
         addItem("New Item", "$0");
     }
 
+    /**
+     * on click of button the item name and price will go to basket
+     * @param name
+     * @param price
+     */
     private void addItem(String name, String price) {
         // Create a new menu item label
         Label menuItemLabel = new Label(name + " - " + price);
@@ -86,7 +98,7 @@ public class Menu implements Initializable {
         addButton.setStyle(
                 "-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 15px;-fx-cursor: hand;");
         addButton.setOnAction(event -> {
-            addToOrder(name, price);
+            addToBasket(name, price);
         });
 
         // Add the label and button to the menuItemsContainer
@@ -95,7 +107,13 @@ public class Menu implements Initializable {
         menuItemsContainer.getChildren().add(itemContainer);
     }
 
-    // Method to receive user data from Login controller
+    /**
+     * Fetching all the user data based on UserName and data is coming from login page 
+     * while routing happens it fetches the data and pass it down to other components
+     * Method to receive user data from Login controller
+     * @param userData
+     * @throws SQLException
+     */
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         this.firstName = userData.getString("firstName");
@@ -104,16 +122,22 @@ public class Menu implements Initializable {
         userDataBuilder.append(userData.getString("lastName")).append("\n");
     }
 
-    private void addToOrder(String name, String price) {
+    /**
+     * the item that gets clicked will be added to the basket 
+     * @param name
+     * @param price
+     */
+    private void addToBasket(String name, String price) {
         // Add the selected item to the order list
         orderList.add(name + " - " + price);
-        try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
-            String sql = "INSERT INTO orders (custName, item_name, item_price, status) VALUES (?, ?, ?,?)";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
+            String sql = "INSERT INTO orders (custName, item_name, item_price, status, foodPrepStatus) VALUES (?, ?, ?,?,?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, firstName);
                 statement.setString(2, name);
                 statement.setString(3, price);
                 statement.setString(4, PENDING);
+                statement.setString(5, PENDING);
                 int rowsUpdated = statement.executeUpdate();
                 if (rowsUpdated > 0) {
                     System.out.println("Order item inserted into database.");
@@ -128,8 +152,12 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * fetching all the order from database based on customer Name/first Name and 
+     * displaying it on the screen
+     */
     private void fetchOrderListFromDatabase() {
-        try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             String sql = "SELECT * FROM orders WHERE custName = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, firstName);
@@ -149,9 +177,11 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * popup appears as the button is clicked and all the data is inserted in database 
+     */
     @FXML
     private void placeOrder() {
-        System.out.println("Menu.placeOrder()");
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Order Confirmation");
         alert.setHeaderText(null);
@@ -168,6 +198,9 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * if user wants to logout he can just click on a button and it will redirect user to the Login Page
+     */
     @FXML
     private void logout() {
         try {
@@ -177,8 +210,8 @@ public class Menu implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // try (Connection connection = DriverManager.getConnection(databaseURL,
-        // username, password)) {
+        // try (Connection connection = DriverManager.getConnection(DATABASE_URL,
+        // USERNAME, PASSWORD)) {
         // String sql = "DELETE FROM orders WHERE custName = ?";
         // try (PreparedStatement statement = connection.prepareStatement(sql)) {
         // statement.setString(1, firstName);
@@ -204,6 +237,9 @@ public class Menu implements Initializable {
         // }
     }
 
+    /**
+     * go back to customer page
+     */
     @FXML
     private void goBack() {
         try {

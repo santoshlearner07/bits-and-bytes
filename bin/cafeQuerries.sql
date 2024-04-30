@@ -5,6 +5,16 @@ CREATE Table signup (
     id INT AUTO_INCREMENT PRIMARY KEY, firstName VARCHAR(255), lastName VARCHAR(255), userName VARCHAR(255), address VARCHAR(255), roleBox VARCHAR(255)
 );
 
+INSERT INTO signup (`firstName`,`lastName`,`userName`,address,`roleBox`)
+VALUES (
+    "Santa","Nandiyawar","santa7","186 high street","Manager"
+);
+
+INSERT INTO signup (`firstName`,`lastName`,`userName`,address,`roleBox`)
+VALUES (
+    "XYZ","XYZ","qwe7","186 high street","Waiter"
+);
+
 SELECT * from signup;
 
 CREATE TABLE restaurant_tables (
@@ -79,8 +89,9 @@ VALUES (
 
 -- Order Menu
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY, custName VARCHAR(100), item_name VARCHAR(100), item_price VARCHAR(20), status VARCHAR(100)
+    order_id INT AUTO_INCREMENT PRIMARY KEY, custName VARCHAR(100), item_name VARCHAR(100), item_price VARCHAR(20), status VARCHAR(100),foodPrepStatus VARCHAR(100)
 );
+
 
 SELECT * from orders;
 

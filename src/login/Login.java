@@ -28,17 +28,22 @@ public class Login {
     @FXML
     private StackPane goToPage;
 
-    private final String databaseURL = "jdbc:mysql://localhost:3306/cafe";
-    private final String username = "root";
-    private final String password = "san7@SQL";
+    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/cafe";
+    private final String USERNAME = "root";
+    private final String PASSWORD = "san7@SQL";
 
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;
 
     private void connect() throws SQLException {
-        connection = DriverManager.getConnection(databaseURL, username, password);
+        connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
     }
-
+/**
+ * handleLogin() fetching data from signup table based on userName
+ * and based on there role there UI renders on screen for example, Manager, Customer, Waiter
+ * if userName does not match on UI it will display as userName does not exist
+ * @throws SQLException
+ */
     @FXML
     private void handleLogin() throws SQLException {
         connect();
@@ -65,7 +70,6 @@ public class Login {
                     goToPage.getChildren().setAll(mainRoot);
                 } 
                 else if ("Waiter".equals(userRole)) {
-                    System.out.println(userRole);
                     loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
                     Parent mainRoot = loader.load();
                     Waiter managerController = loader.getController();
@@ -82,6 +86,9 @@ public class Login {
         }
     }
 
+    /**
+     * onClick of create your account it will redirect you to SignUp Page
+     */
     @FXML
     private void goToSignUp() {
         try {

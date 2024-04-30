@@ -2,7 +2,6 @@ package mainPage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +16,11 @@ public class MainPage {
     @FXML
     private Label userDataLabel;
 
+    /**
+     * This is a dummy page. This was created to only check how the file loading is happening
+     * @param userData
+     * @throws SQLException
+     */
     // Method to receive user data from Login controller
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();

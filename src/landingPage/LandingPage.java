@@ -6,14 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
 
+/**
+ * Landing Page has two rendering pages Signup and Login based on user click specific page will get rendered
+ */
 public class LandingPage {
-
     @FXML
     private Label label;
 
     @FXML
     private StackPane contentPane;
-
+/**
+ * rendering signUp.fxml
+ */
     @FXML
     private void signUpPage() {
         try {
@@ -25,7 +29,9 @@ public class LandingPage {
             e.printStackTrace();
         }
     }
-
+/**
+ * rendering Login.fxml
+ */
     @FXML
     private void loginPage() {
         try {
