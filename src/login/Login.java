@@ -64,22 +64,18 @@ public class Login {
             ResultSet staffResult = preparedStatement.executeQuery();
 
             if (customerResult.next()) {
-                // Fetch user role from the signup table
-                String userRole = customerResult.getString("roleBox");
-                FXMLLoader loader;
-                if ("Customer".equals(userRole)) {
-                    // Redirect to customer page
-                    loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
-                    Parent mainRoot = loader.load();
-                    Customer custController = loader.getController();
-                    custController.setUser(customerResult);
-                    goToPage.getChildren().setAll(mainRoot);
-                } else {
-                    aUser.setText("User name does not exist");
-                    System.out.println("Not a Customer or Username does not exist in the database.");
-                    userName.clear();
-                }
-            }
+            // Fetch user role from the signup table
+            String userRole = customerResult.getString("roleBox");
+            FXMLLoader loader;
+            if ("Customer".equals(userRole)) {
+                // Redirect to customer page
+                loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
+                Parent mainRoot = loader.load();
+                Customer custController = loader.getController();
+                custController.setUser(customerResult);
+                goToPage.getChildren().setAll(mainRoot);
+            } 
+        } 
             if (staffResult.next()) {
                 // Fetch user role from the staff table
                 String userRole = staffResult.getString("Role");
