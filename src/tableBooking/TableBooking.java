@@ -50,7 +50,7 @@ public class TableBooking {
     private ResultSet userData;
 
     /**
-     * at begining i am displaying table seats and time 
+     * at begining i am displaying table seats and time
      */
     @FXML
     public void initialize() {
@@ -73,21 +73,27 @@ public class TableBooking {
         });
     }
 
-/**
- * getting all the user data using userName and then displaying it on screen
- * @param userData
- * @throws SQLException
- */
+    /**
+     * getting all the user data using userName and then displaying it on screen
+     * 
+     * @param userData
+     * @throws SQLException
+     */
     public void setUser(ResultSet userData) throws SQLException {
-        StringBuilder userDataBuilder = new StringBuilder();
-        this.userData = userData;
-        userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
-        userDataBuilder.append(userData.getString("lastName")).append("\n");
+        if(userData != null){
+            StringBuilder userDataBuilder = new StringBuilder();
+            this.userData = userData;
+            userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
+            userDataBuilder.append(userData.getString("lastName")).append("\n");
+        } else {
+            return;
+        }
     }
 
     /**
      * booking a table based on user need and preferences
      * getting all the values from combobox and timepicker
+     * 
      * @throws SQLException
      */
     @FXML
@@ -96,17 +102,17 @@ public class TableBooking {
             System.out.println("User data is null.");
             return;
         }
-
+    
         String selectedSeats = seatsComboBox.getValue();
         String selectedTime = timeComboBox.getValue();
         LocalDate selectedDate = datePicker.getValue(); // Get selected date as LocalDate
-
+    
         if (selectedSeats != null && !selectedSeats.isEmpty() &&
                 selectedTime != null && !selectedTime.isEmpty() &&
                 selectedDate != null) {
             int selectedSeatsCount = Integer.parseInt(selectedSeats.split(" ")[0]);
             String userName = userData.getString("firstName");
-
+    
             try (Connection conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
                 try (PreparedStatement stmt = conn.prepareStatement(CUSTOMER_TABLE_BOOKED)) {
                     stmt.setString(1, userName);
@@ -115,8 +121,23 @@ public class TableBooking {
                     stmt.setString(4, selectedTime);
                     stmt.setString(5, "pending");
                     int rowsUpdated = stmt.executeUpdate();
+    
                     if (rowsUpdated > 0) {
                         System.out.println("Table booked successfully.");
+    
+                        // Prepare and execute the update query
+                        String updateQuery = "UPDATE orders SET tableNumber = ? WHERE custName = ?";
+                        try (PreparedStatement stmt2 = conn.prepareStatement(updateQuery)) {
+                            stmt2.setInt(1, selectedSeatsCount);
+                            stmt2.setString(2, userName);
+                            int rowsUpdated2 = stmt2.executeUpdate();
+                            if (rowsUpdated2 > 0) {
+                                System.out.println("Order updated with table number.");
+                            } else {
+                                System.out.println("Failed to update order with table number.");
+                            }
+                        }
+    
                         seatsComboBox.setValue(null);
                         timeComboBox.setValue(null);
                         datePicker.setValue(null);
@@ -134,9 +155,10 @@ public class TableBooking {
             bookingStatus.setText("Fill every field.");
         }
     }
-
+    
     /**
      * going back to customer UI
+     * 
      * @throws SQLException
      */
     @FXML

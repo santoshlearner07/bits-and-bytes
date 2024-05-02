@@ -15,6 +15,7 @@
     <VBox style="-fx-padding: 50 0 0 0" alignment="CENTER" spacing="20">
         <ListView fx:id="orderListView" style="-fx-font-size:14px;-fx-font-weight: bold;" maxWidth="700" />
         <Button text="Complete Order" onAction="#completeOrder" />
+        <Button text="Take Order" onAction="#takeOrder" />
         <Button text="Logout"  style="-fx-background-color:#c80815" onAction="#logout" />
     </VBox>
 </StackPane>

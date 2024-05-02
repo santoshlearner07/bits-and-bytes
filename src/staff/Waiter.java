@@ -18,9 +18,9 @@ import javafx.scene.layout.StackPane;
 
 public class Waiter {
 
-    private final String databaseURL = "jdbc:mysql://127.0.0.1:3306/cafe";
-    private final String username = "root";
-    private final String password = "san7@SQL";
+    private final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/cafe";
+    private final String USERNAME = "root";
+    private final String PASSWORD = "san7@SQL";
 
     private String firstName;
 
@@ -30,10 +30,15 @@ public class Waiter {
     @FXML
     private ListView<String> orderListView;
 
-    public void setUser(ResultSet userData) throws SQLException {
-        // Extract first name from the user data and store it
-        this.firstName = userData.getString("firstName");
-    }
+    // public void setUser(ResultSet userData) throws SQLException {
+    //     // Extract first name from the user data and store it
+    //     // this.firstName = userData.getString("firstName");
+    //     if(userData != null){
+    //         this.firstName = userData.getString("firstName");
+    //     } else {
+    //         return;
+    //     }
+    // }
 
     @FXML
     private void initialize() {
@@ -42,7 +47,7 @@ public class Waiter {
     }
 
     private void fetchAllOrders() {
-        try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             String sql = "SELECT * FROM orders WHERE status = 'pending' AND foodPrepStatus = 'Complete'";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -51,8 +56,9 @@ public class Waiter {
                         String itemName = resultSet.getString("item_name");
                         String custName = resultSet.getString("custName");
                         String status = resultSet.getString("status");
+                        String tableNumber = resultSet.getString("tableNumber");
                         items.add("Customer Name:- " + custName + " -> Order - " + itemName + " - " + " Status: "
-                                + status);
+                                + status + " Table:- " + tableNumber);
                     }
                     orderListView.setItems(items);
                     System.out.println("Order list updated from the database.");
@@ -73,8 +79,8 @@ public class Waiter {
             String customerNameWithPrefix = parts[0];
             String customerName = customerNameWithPrefix.substring(customerNameWithPrefix.indexOf(":-") + 3).trim();
 
-            try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
-                String sql = "UPDATE orders SET status = 'Completed' WHERE custName = ? AND item_name = ?";
+            try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
+                String sql = "UPDATE orders SET status = 'Complete' WHERE custName = ? AND item_name = ?";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
                     statement.setString(1, customerName);
                     statement.setString(2, itemName);
@@ -93,6 +99,17 @@ public class Waiter {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @FXML
+    private void takeOrder() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../staff/WaiterOrder.fxml"));
+            Parent mainPageRoot = loader.load();
+            goToPage.getChildren().setAll(mainPageRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

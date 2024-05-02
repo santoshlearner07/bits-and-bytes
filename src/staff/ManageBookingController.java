@@ -52,18 +52,14 @@ public class ManageBookingController {
     
         loadBookingDataFromDatabase();
     }
-    /**
-     * Handles the action when the user clicks the "Back" button.
-     */
+    
     @FXML
     private void goBack() {
         // Get the current stage and close it
         Stage stage = (Stage) statusLabel.getScene().getWindow();
         stage.close();
     }
-    /**
-     * Loads booking data from the database into the TableView.
-     */
+
     private void loadBookingDataFromDatabase() {
         ObservableList<Booking> bookingList = FXCollections.observableArrayList();
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
@@ -87,11 +83,9 @@ public class ManageBookingController {
 
         bookingTableView.setItems(bookingList);
     }
-    /**
-     * Handles the action when the user clicks the "Approve" button.
-     */
+
     @FXML
-    private void handleApproveBooking() {
+private void handleApproveBooking() {
     Booking selectedBooking = bookingTableView.getSelectionModel().getSelectedItem();
     if (selectedBooking != null) {
         // Update the database to reflect the approved status
@@ -107,12 +101,8 @@ public class ManageBookingController {
     }
 }
 
-    /**
-     * Updates the status of the booking in the database.
-     *
-     * @param booking The booking to update.
-     */
-    private void updateBookingStatusInDatabase(Booking booking) {
+
+private void updateBookingStatusInDatabase(Booking booking) {
     try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
         String updateQuery = "UPDATE tableBookingInfo SET tableStatus = ? WHERE name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);

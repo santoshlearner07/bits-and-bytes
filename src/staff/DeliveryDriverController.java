@@ -1,6 +1,3 @@
-/**
- * Controller class for managing delivery driver-related functionality.
- */
 package staff;
 
 import javafx.collections.ObservableList;
@@ -25,53 +22,51 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DeliveryDriverController {
-    
+
     private final String DATABASE_URL = "jdbc:mysql://127.0.0.1:3306/cafe";
     private final String USERNAME = "root";
     private final String PASSWORD = "san7@SQL";
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    
+
     @FXML
     private TableView<ObservableList<String>> ordersTableView;
-    
+
     @FXML
     private TableColumn<ObservableList<String>, String> orderIdColumn;
-    
+
     @FXML
     private TableColumn<ObservableList<String>, String> itemNameColumn;
-    
+
     @FXML
     private TableColumn<ObservableList<String>, String> custNameColumn;
-    
+
     @FXML
     private TableColumn<ObservableList<String>, String> custAddrColumn;
-    
+
     @FXML
     private Button markAsDeliveredButton;
 
-    /**
-     * Initializes the controller class. This method is automatically called after the
-     * FXML file has been loaded.
-     */
     @FXML
     private void initialize() {
+        // Initialize table columns
         orderIdColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(0)));
         itemNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(1)));
         custNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(2)));
         custAddrColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(3)));
-        
+
         // Load orders data
         fetchOrdersData();
     }
+
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
+        // this.userData = userData;
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
+        // userDataLogin.setText(userDataBuilder.toString());
     }
-    /**
-     * Handles marking an order as delivered.
-     */
+
     @FXML
     private void handleMarkAsDelivered() {
         LocalTime currentTime = LocalTime.now();
@@ -84,25 +79,22 @@ public class DeliveryDriverController {
             showErrorAlert("No Order Selected", "Please select an order to mark as delivered.");
         }
     }
-    /**
-     * Fetches orders data from the database and populates the TableView.
-     */
+
     private void fetchOrdersData() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             String query = "SELECT orders.order_id, orders.item_name, orders.custName, signup.address " +
-               "FROM orders " +
-               "INNER JOIN signup ON orders.custName = signup.userName " +
-               "WHERE orders.services = 'Delivery' AND orders.status = 'pending'";
+                    "FROM orders " +
+                    "INNER JOIN signup ON orders.custName = signup.firstName " +
+                    "WHERE orders.services = 'Delivery' AND orders.status = 'pending'";
             try (PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
+                    ResultSet resultSet = statement.executeQuery()) {
                 ordersTableView.getItems().clear();
                 while (resultSet.next()) {
                     ObservableList<String> orderData = FXCollections.observableArrayList(
                             resultSet.getString("order_id"),
                             resultSet.getString("item_name"),
                             resultSet.getString("custName"),
-                            resultSet.getString("address")
-                    );
+                            resultSet.getString("address"));
                     ordersTableView.getItems().add(orderData);
                 }
             }
@@ -111,14 +103,10 @@ public class DeliveryDriverController {
             showErrorAlert("Database Error", "An error occurred while fetching orders data.");
         }
     }
-    /**
-     * Marks the selected order as delivered in the database.
-     *
-     * @param order is the selected order.
-     */
 
     private void markOrderAsDelivered(ObservableList<String> order) {
         int orderId = Integer.parseInt(order.get(0)); // Assuming order ID is stored in the first column
+        System.out.println(orderId + "line 110");
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             String updateQuery = "UPDATE orders SET status = 'Complete' WHERE order_id = ?";
             try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
@@ -127,7 +115,8 @@ public class DeliveryDriverController {
                 if (rowsUpdated > 0) {
                     // Refresh orders data after update
                     fetchOrdersData();
-                    showAlert(Alert.AlertType.INFORMATION, "Order Status Updated", "The order status has been updated to Complete.");
+                    showAlert(Alert.AlertType.INFORMATION, "Order Status Updated",
+                            "The order status has been updated to Complete.");
                 } else {
                     showErrorAlert("Update Failed", "Failed to update the order status.");
                 }
@@ -141,13 +130,7 @@ public class DeliveryDriverController {
     private void showErrorAlert(String title, String content) {
         showAlert(Alert.AlertType.ERROR, title, content);
     }
-    /**
-     * Displays an alert with the specified type, title, and content.
-     *
-     * @param alertType The type of the alert.
-     * @param title The title of the alert.
-     * @param content The content of the alert.
-     */
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -155,22 +138,20 @@ public class DeliveryDriverController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    /**
-     * Logs out the user from the system.
-     */
+
     @FXML
     private void logout() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
-        Parent loginRoot = loader.load();
-        
-        // Get the current scene from any node in the scene graph
-        Scene scene = ordersTableView.getScene();
-        
-        // Set the login scene as the root of the current scene
-        scene.setRoot(loginRoot);
-    } catch (IOException e) {
-        e.printStackTrace();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+            Parent loginRoot = loader.load();
+
+            // Get the current scene from any node in the scene graph
+            Scene scene = ordersTableView.getScene();
+
+            // Set the login scene as the root of the current scene
+            scene.setRoot(loginRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 }

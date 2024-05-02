@@ -29,10 +29,6 @@ public class StaffManagementController {
         openManageBookingsUI();
     }
 
-    /**
-     * Handles the action to open the staff management UI.
-     */
-
     private void openStaffManagementUI() {
         try {
             // Load the FXML file of the staff management UI
@@ -48,9 +44,7 @@ public class StaffManagementController {
             e.printStackTrace();
         }
     }
-    /**
-     * Handles the action to open the manage bookings UI.
-     */
+
     private void openManageBookingsUI() {
         try {
             // Load the FXML file of the manage bookings UI
@@ -82,9 +76,7 @@ public class StaffManagementController {
             e.printStackTrace();
         }
     }
-    /**
-     * Handles the action of logging out.
-     */
+
     @FXML
     private void logout() {
         try {

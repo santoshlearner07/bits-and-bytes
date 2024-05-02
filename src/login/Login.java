@@ -64,30 +64,39 @@ public class Login {
             ResultSet staffResult = preparedStatement.executeQuery();
 
             if (customerResult.next()) {
-            // Fetch user role from the signup table
-            String userRole = customerResult.getString("roleBox");
-            FXMLLoader loader;
-            if ("Customer".equals(userRole)) {
-                // Redirect to customer page
-                loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
-                Parent mainRoot = loader.load();
-                Customer custController = loader.getController();
-                custController.setUser(customerResult);
-                goToPage.getChildren().setAll(mainRoot);
-            } 
-        } 
+                // Fetch user role from the signup table
+                String userRole = customerResult.getString("roleBox");
+                FXMLLoader loader;
+                if ("Customer".equals(userRole)) {
+                    // Redirect to customer page
+                    loader = new FXMLLoader(getClass().getResource("../customer/Customer.fxml"));
+                    Parent mainRoot = loader.load();
+                    Customer custController = loader.getController();
+                    custController.setUser(customerResult);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else if ("Waiter".equals(userRole)) {
+                    // Redirect to customer page
+                    loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
+                    Parent mainRoot = loader.load();
+                    // Waiter waiterController = loader.getController();
+                    // waiterController.setUser(customerResult);
+                    goToPage.getChildren().setAll(mainRoot);
+                } else {
+                    aUser.setText("User name does not exist");
+                    System.out.println("Not a Customer or Username does not exist in the database.");
+                    userName.clear();
+                }
+            }
             if (staffResult.next()) {
                 // Fetch user role from the staff table
                 String userRole = staffResult.getString("Role");
                 FXMLLoader loader;
                 if ("Manager".equalsIgnoreCase(userRole)) {
-                // Redirect to manager page
-                loader = new FXMLLoader(getClass().getResource("../staff/StaffManagement.fxml"));
-                Parent mainRoot = loader.load();
-                //StaffManagementController managerController = loader.getController();
-                //managerController.setUser(staffResult);
-                goToPage.getChildren().setAll(mainRoot);
-                } 
+                    // Redirect to manager page
+                    loader = new FXMLLoader(getClass().getResource("../staff/StaffManagement.fxml"));
+                    Parent mainRoot = loader.load();
+                    goToPage.getChildren().setAll(mainRoot);
+                }
                 if ("Chef".equalsIgnoreCase(userRole)) {
                     // Redirect to chef page
                     loader = new FXMLLoader(getClass().getResource("../staff/Chef.fxml"));
@@ -108,8 +117,8 @@ public class Login {
                     // Redirect to chef page
                     loader = new FXMLLoader(getClass().getResource("../staff/Waiter.fxml"));
                     Parent mainRoot = loader.load();
-                    Waiter waitercontroller = loader.getController();
-                    waitercontroller.setUser(staffResult);
+                    // Waiter waitercontroller = loader.getController();
+                    // waitercontroller.setUser(staffResult);
                     goToPage.getChildren().setAll(mainRoot);
                 }
             } else {
