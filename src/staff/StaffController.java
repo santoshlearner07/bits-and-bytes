@@ -96,8 +96,6 @@ public class StaffController {
 
         // Load staff data
         loadStaffDataFromDatabase();
-
-        //TableView selection changes
         staffTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 handleTableViewSelection();
@@ -112,7 +110,12 @@ public class StaffController {
         stage.close();
     }
     
-
+   /**
+     * Sets the user information.
+     *
+     * @param userData The ResultSet containing user data.
+     * @throws SQLException if a database access error occurs
+     */
 
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
@@ -121,9 +124,11 @@ public class StaffController {
         userDataBuilder.append(userData.getString("lastName")).append("\n");
         // userDataLogin.setText(userDataBuilder.toString());
     }
-
+    /**
+     * Handles the event when the manager wants to add a new staff member.
+     */
     @FXML
-private void handleAddStaff() {
+    private void handleAddStaff() {
     try {
         // Check if the staff member already exists
         if (staffExists(firstNameField.getText(), lastNameField.getText())) {
@@ -133,7 +138,6 @@ private void handleAddStaff() {
         
         // Add new staff member to the database
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
-            // Prepare the SQL statement
             String insertQuery = "INSERT INTO Staff (FirstName, LastName, Role, HoursToWork, TotalHoursWorked) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, firstNameField.getText());
@@ -142,7 +146,6 @@ private void handleAddStaff() {
             preparedStatement.setInt(4, Integer.parseInt(hoursToWorkField.getText()));
             preparedStatement.setInt(5, Integer.parseInt(totalHoursWorkedField.getText()));
 
-            // Execute the statement
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -160,7 +163,14 @@ private void handleAddStaff() {
         statusLabel.setText("Please enter staff details");
     }
 }
-
+/**
+     * Checks if a staff member already exists in the database.
+     *
+     * @param firstName The first name of the staff member.
+     * @param lastName  The last name of the staff member.
+     * @return true if the staff member exists, otherwise false.
+     * @throws SQLException if a database access error occurs
+     */
 private boolean staffExists(String firstName, String lastName) throws SQLException {
     try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
         String selectQuery = "SELECT COUNT(*) AS count FROM Staff WHERE FirstName=? AND LastName=?";
@@ -173,7 +183,9 @@ private boolean staffExists(String firstName, String lastName) throws SQLExcepti
         return count > 0;
     }
 }
-
+   /**
+     * Handles the event when the manager wants to modify a staff member.
+     */
 
     @FXML
     private void handleModifyStaff() {
@@ -235,7 +247,9 @@ private boolean staffExists(String firstName, String lastName) throws SQLExcepti
             statusLabel.setText("Error: " + e.getMessage());
         }
     }
-
+    /**
+     * Handles the event when the manager wants to delete a staff member.
+     */
     @FXML
     private void handleDeleteStaff() {
         // Check if a staff member is selected in the TableView
@@ -349,7 +363,9 @@ private void addStaffFromSignupTableToStaffTable() {
             statusLabel.setText("Error: " + e.getMessage());
         }
     }
-
+    /**
+     * Logs out the user from the system.
+     */
     @FXML
     private void logout(){
         // try {
