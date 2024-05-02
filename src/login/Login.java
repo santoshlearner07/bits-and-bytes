@@ -85,11 +85,13 @@ public class Login {
                 String userRole = staffResult.getString("Role");
                 FXMLLoader loader;
                 if ("Manager".equalsIgnoreCase(userRole)) {
-                    // Redirect to manager page
-                    loader = new FXMLLoader(getClass().getResource("../staff/StaffManagement.fxml"));
-                    Parent mainRoot = loader.load();
-                    goToPage.getChildren().setAll(mainRoot);
-                }
+                // Redirect to manager page
+                loader = new FXMLLoader(getClass().getResource("../staff/StaffManagement.fxml"));
+                Parent mainRoot = loader.load();
+                //StaffManagementController managerController = loader.getController();
+                //managerController.setUser(staffResult);
+                goToPage.getChildren().setAll(mainRoot);
+                } 
                 if ("Chef".equalsIgnoreCase(userRole)) {
                     // Redirect to chef page
                     loader = new FXMLLoader(getClass().getResource("../staff/Chef.fxml"));
