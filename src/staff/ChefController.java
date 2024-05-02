@@ -12,7 +12,9 @@ import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.sql.*;
-
+/**
+ * Controller class for managing chef-related functionalities.
+ */
 public class ChefController {
 
     @FXML
@@ -40,6 +42,12 @@ public class ChefController {
         // Load orders into TableView
         loadOrders();
     }
+    /**
+     * Sets the user data.
+     *
+     * @param userData the result set containing user data
+     * @throws SQLException if a database access error occurs
+     */
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         // this.userData = userData;
@@ -47,8 +55,11 @@ public class ChefController {
         userDataBuilder.append(userData.getString("lastName")).append("\n");
         // userDataLogin.setText(userDataBuilder.toString());
     }
+    /**
+     * Handles the action when an order is marked as complete.
+     */
     @FXML
-private void handleMarkAsComplete() {
+    private void handleMarkAsComplete() {
     Object[] selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
     if (selectedOrder == null) {
         showAlert("Please select an order to mark as complete.");
@@ -76,7 +87,9 @@ private void handleMarkAsComplete() {
     }
 }
 
-    
+    /**
+     * Loads pending orders into the TableView.
+     */
     private void loadOrders() {
         ordersTableView.getItems().clear();
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
@@ -95,15 +108,22 @@ private void handleMarkAsComplete() {
         }
     }
 
-
+    /**
+     * Displays an alert with the given message.
+     *
+     * @param message the message to display in the alert
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+    /**
+     * Handles the logout action.
+     */
     @FXML
-private void logout() {
+    private void logout() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
         Parent loginRoot = loader.load();

@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.sql.*;
 
 public class ReportGeneratorController {
-
+    /**
+     * Generates a report based on data fetched from the database and saves it to a file.
+     */
     @FXML void generateReport() {
         // Fetch data from the database
         String mostPopularItem = fetchDataFromDatabase("SELECT item_name FROM orders GROUP BY item_name ORDER BY COUNT(*) DESC LIMIT 1");
@@ -36,7 +38,12 @@ public class ReportGeneratorController {
             }
         }
     }
-
+    /**
+     * Fetches data from the database based on the provided SQL query.
+     *
+     * @param sqlQuery the SQL query to execute
+     * @return the result fetched from the database
+     */
     private String fetchDataFromDatabase(String sqlQuery) {
         String result = "";
         String url = "jdbc:mysql://127.0.0.1:3306/cafe";

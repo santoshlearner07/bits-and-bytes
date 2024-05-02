@@ -16,18 +16,12 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
-
-
-
-
 import java.io.IOException;
 import java.sql.*;
-
+/**
+ * Controller class for managing staff members.
+ */
 public class StaffController {
-
-    // @FXML
-    // private StackPane managerView;
-
     @FXML
     private Label statusLabel;
 
@@ -70,7 +64,9 @@ public class StaffController {
     private final String databaseURL = "jdbc:mysql://127.0.0.1:3306/cafe";
     private final String username = "root";
     private final String password = "san7@SQL";
-
+    /**
+     * Initializes the controller.
+     */
     @FXML
     private void initialize() {
         roleBox.getItems().addAll("Manager", "Delivery Driver", "Chef", "Waiter");
@@ -104,16 +100,21 @@ public class StaffController {
             }
         });
     }
-
+    /**
+     * Handles going back to the previous view.
+     */
     @FXML
     private void goBack() {
         // Get the current stage and close it
         Stage stage = (Stage) statusLabel.getScene().getWindow();
         stage.close();
     }
-    
-
-
+    /**
+     * Sets the user data for the controller.
+     *
+     * @param userData the user data to set
+     * @throws SQLException if a SQL exception occurs
+     */
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         // this.userData = userData;
@@ -121,9 +122,11 @@ public class StaffController {
         userDataBuilder.append(userData.getString("lastName")).append("\n");
         // userDataLogin.setText(userDataBuilder.toString());
     }
-
+    /**
+     * Handles adding a new staff member.
+     */
     @FXML
-private void handleAddStaff() {
+    private void handleAddStaff() {
     try {
         // Check if the staff member already exists
         if (staffExists(firstNameField.getText(), lastNameField.getText())) {
@@ -160,7 +163,14 @@ private void handleAddStaff() {
         statusLabel.setText("Please enter staff details");
     }
 }
-
+/**
+     * Checks if a staff member already exists.
+     *
+     * @param firstName the first name of the staff member
+     * @param lastName the last name of the staff member
+     * @return true if the staff member exists, otherwise false
+     * @throws SQLException if a SQL exception occurs
+     */
 private boolean staffExists(String firstName, String lastName) throws SQLException {
     try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
         String selectQuery = "SELECT COUNT(*) AS count FROM Staff WHERE FirstName=? AND LastName=?";
@@ -173,7 +183,9 @@ private boolean staffExists(String firstName, String lastName) throws SQLExcepti
         return count > 0;
     }
 }
-
+   /**
+     * Handles modifying an existing staff member.
+     */
 
     @FXML
     private void handleModifyStaff() {
@@ -326,7 +338,9 @@ private void addStaffFromSignupTableToStaffTable() {
             totalHoursWorkedField.setText(String.valueOf(selectedStaff.getTotalHoursWorked()));
         }
     }
-
+    /**
+     * Loads staff data from the database.
+     */
     private void loadStaffDataFromDatabase() {
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
             String selectQuery = "SELECT * FROM Staff";
@@ -349,7 +363,9 @@ private void addStaffFromSignupTableToStaffTable() {
             statusLabel.setText("Error: " + e.getMessage());
         }
     }
-
+    /**
+     * Handles logout action.
+     */
     @FXML
     private void logout(){
         // try {

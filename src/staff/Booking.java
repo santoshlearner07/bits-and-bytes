@@ -2,7 +2,15 @@ package staff;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-
+/**
+     * Constructs a new Booking object with the specified details.
+     *
+     * @param name         the name of the customer making the booking
+     * @param tableSeat    the number of seats booked
+     * @param bookingDate  the date of the booking
+     * @param bookingTime  the time of the booking
+     * @param status       the status of the booking
+     */
 public class Booking {
 
     private final SimpleStringProperty name;

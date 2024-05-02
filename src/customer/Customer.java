@@ -69,12 +69,14 @@ public class Customer {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         String tableStatus = resultSet.getString("tableStatus");
+                        String tableNumber = resultSet.getString("table_id");
+                        String tableSeat = resultSet.getString("tableSeat");
                         switch (tableStatus) {
                             case "pending":
-                                tableBKStatus.setText("Pending");
+                                tableBKStatus.setText("Table booking Pending");
                                 break;
-                            case "Completed":
-                                tableBKStatus.setText("Table Booked");
+                            case "Approved":
+                                tableBKStatus.setText("Table " + tableNumber + " of " + tableSeat + " seats booked." );
                                 break;
                             default:
                                 tableBKStatus.setText("");
@@ -160,7 +162,7 @@ public class Customer {
                     while (resultSet.next()) {
                         String itemName = resultSet.getString("item_name");
                         String itemPrice = resultSet.getString("item_price");
-                        String itemstatus = resultSet.getString("status");
+                        String itemstatus = resultSet.getString("foodPrepStatus");
                         String itemService = resultSet.getString("services");
                         String orderedON = resultSet.getString("orderDate");
                         orderDetails.append("Ordered Date: -").append(orderedON).append(" - ").append(itemName)

@@ -9,7 +9,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import java.sql.*;
-
+/**
+ * Controller class for managing booking information.
+ */
 public class ManageBookingController {
 
     @FXML
@@ -42,7 +44,9 @@ public class ManageBookingController {
     private void initialize() {
         initializeTableView();
     }
-
+    /**
+     * Initializes the TableView.
+     */
     private void initializeTableView() {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         tableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getTableSeat())));
@@ -59,7 +63,9 @@ public class ManageBookingController {
         Stage stage = (Stage) statusLabel.getScene().getWindow();
         stage.close();
     }
-
+    /**
+     * Loads booking data from the database and populates the TableView.
+     */
     private void loadBookingDataFromDatabase() {
         ObservableList<Booking> bookingList = FXCollections.observableArrayList();
         try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
@@ -83,9 +89,11 @@ public class ManageBookingController {
 
         bookingTableView.setItems(bookingList);
     }
-
+    /**
+     * Handles the action when a booking is approved.
+     */
     @FXML
-private void handleApproveBooking() {
+    private void handleApproveBooking() {
     Booking selectedBooking = bookingTableView.getSelectionModel().getSelectedItem();
     if (selectedBooking != null) {
         // Update the database to reflect the approved status
@@ -100,9 +108,13 @@ private void handleApproveBooking() {
         statusLabel.setText("Please select a booking to approve.");
     }
 }
-
-
-private void updateBookingStatusInDatabase(Booking booking) {
+    
+    /**
+     * Updates the booking status in the database to 'Approved'.
+     *
+     * @param booking the booking to update
+     */
+    private void updateBookingStatusInDatabase(Booking booking) {
     try (Connection connection = DriverManager.getConnection(databaseURL, username, password)) {
         String updateQuery = "UPDATE tableBookingInfo SET tableStatus = ? WHERE name = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
