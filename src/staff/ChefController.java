@@ -1,3 +1,6 @@
+/**
+ * Controller class for managing chef-related functionality.
+ */
 package staff;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,6 +18,9 @@ import java.sql.*;
 
 public class ChefController {
 
+    /**
+     * TableView for displaying orders to be prepared by the chef.
+     */
     @FXML
     private TableView<Object[]> ordersTableView;
 
@@ -29,28 +35,37 @@ public class ChefController {
     private final String databaseURL = "jdbc:mysql://127.0.0.1:3306/cafe";
     private final String username = "root";
     private final String password = "san7@SQL";
-
+    
+    /**
+     * Initializes the controller class. This method is automatically called after the
+     * FXML file has been loaded.
+     */
     @FXML
     private void initialize() {
-        // Initialize TableView columns
         orderIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty((Integer) cellData.getValue()[0]).asObject());
         itemNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[1]));
        
-
         // Load orders into TableView
         loadOrders();
     }
+    /**
+     * Sets user information for the controller.
+     *
+     * @param userData Result set containing user data.
+     * @throws SQLException if a database access error occurs.
+     */
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
-        // this.userData = userData;
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
-        // userDataLogin.setText(userDataBuilder.toString());
     }
+    /**
+     * Handles marking an order as complete.
+     */
     @FXML
-private void handleMarkAsComplete() {
-    Object[] selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
-    if (selectedOrder == null) {
+    private void handleMarkAsComplete() {
+        Object[] selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
+        if (selectedOrder == null) {
         showAlert("Please select an order to mark as complete.");
         return;
     }
@@ -75,7 +90,9 @@ private void handleMarkAsComplete() {
         showAlert("Error: " + e.getMessage());
     }
 }
-
+    /**
+     * Loads orders from the database into the TableView.
+     */
     
     private void loadOrders() {
         ordersTableView.getItems().clear();
@@ -102,16 +119,15 @@ private void handleMarkAsComplete() {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    /**
+     * Logs out the user from the system.
+     */
     @FXML
 private void logout() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
         Parent loginRoot = loader.load();
-        
-        // Get the current scene from any node in the scene graph
         Scene scene = ordersTableView.getScene();
-        
-        // Set the login scene as the root of the current scene
         scene.setRoot(loginRoot);
     } catch (IOException e) {
         e.printStackTrace();
