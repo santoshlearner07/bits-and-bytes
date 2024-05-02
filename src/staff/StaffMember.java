@@ -13,7 +13,16 @@ public class StaffMember {
     private final StringProperty role;
     private final IntegerProperty hoursToWork;
     private final IntegerProperty totalHoursWorked;
-
+    
+    /**
+     * Constructs a new StaffMember object with the specified attributes.
+     * @param id The ID of the staff member.
+     * @param firstName The first name of the staff member.
+     * @param lastName The last name of the staff member.
+     * @param role The role of the staff member.
+     * @param hoursToWork The number of hours the staff member is scheduled to work.
+     * @param totalHoursWorked The total number of hours the staff member has worked.
+     */
     public StaffMember(int id, String firstName, String lastName, String role, int hoursToWork, int totalHoursWorked) {
         this.id = new SimpleIntegerProperty(id);
         this.firstName = new SimpleStringProperty(firstName);
