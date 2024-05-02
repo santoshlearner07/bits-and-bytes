@@ -76,7 +76,7 @@ public class StaffManagementController {
 
     public void setUser(ResultSet resultSet) {
         try {
-            String name = resultSet.getString("name");
+            String name = resultSet.getString("firstName");
             nameLabel.setText("Welcome, " + name);
         } catch (SQLException e) {
             e.printStackTrace();
