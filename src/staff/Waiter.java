@@ -18,7 +18,7 @@ import javafx.scene.layout.StackPane;
 
 public class Waiter {
 
-    private final String databaseURL = "jdbc:mysql://localhost:3306/cafe";
+    private final String databaseURL = "jdbc:mysql://127.0.0.1:3306/cafe";
     private final String username = "root";
     private final String password = "san7@SQL";
 

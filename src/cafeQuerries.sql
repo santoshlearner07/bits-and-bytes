@@ -89,7 +89,7 @@ VALUES (
 
 -- Order Menu
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY, custName VARCHAR(100), item_name VARCHAR(100), item_price VARCHAR(20), status VARCHAR(100),foodPrepStatus VARCHAR(100), services VARCHAR(100),time VARCHAR(20)
+    order_id INT AUTO_INCREMENT PRIMARY KEY, custName VARCHAR(100), item_name VARCHAR(100), item_price VARCHAR(20), status VARCHAR(100),foodPrepStatus VARCHAR(100)
 );
 
 UPDATE orders SET foodPrepStatus = 'Complete' WHERE order_id = 1;

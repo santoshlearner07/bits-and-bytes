@@ -1,84 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.cell.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.ComboBox?>
-<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    prefHeight="500" prefWidth="800"
-    fx:controller="staff.StaffController" style="-fx-padding:30 0 0 0">
-
-    <!-- <top>
-        <HBox alignment="CENTER" style="-fx-background-color: #333; -fx-padding: 10;">
-            <Label text="Staff Management System" style="-fx-text-fill: white; -fx-font-family: 'Arial Black';
-    -fx-font-size: 24px;"/>
+<BorderPane prefHeight="500" prefWidth="800" style="-fx-padding:30 0 0 0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="staff.StaffController">
+    <top>
+        <HBox style="-fx-background-color: #333;">
+            <Button text="Back" onAction="#goBack" style="-fx-font-size: 16px; -fx-text-fill: black;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-text-fill: white; -fx-font-family: 'Arial Black'; -fx-font-size: 24px;" text="Staff Management System" />
+            <Region HBox.hgrow="ALWAYS" />
         </HBox>
-    </top> -->
+    </top>
 
     <left>
         <VBox spacing="10" style="-fx-background-color: #DDD; -fx-padding: 20;">
-            <Button fx:id="addStaffButton" text="Add Staff" onAction="#handleAddStaff"
-                style="-fx-font-size: 16px;" />
-            <Button fx:id="viewStaffButton" text="View Staff" onAction="#handleViewStaff"
-                style="-fx-font-size: 16px;" />
-            <Button fx:id="modifyStaffButton" text="Modify Staff" onAction="#handleModifyStaff"
-                style="-fx-font-size: 16px;" />
-            <Button fx:id="deleteStaffButton" text="Delete Staff" onAction="#handleDeleteStaff"
-                style="-fx-font-size: 16px;" />
-            <HBox>
-                <Button text="Logout" style="-fx-font-size: 16px;" onAction="#logout" />
-            </HBox>
+            <Button fx:id="addStaffButton" onAction="#handleAddStaff" style="-fx-font-size: 16px;" text="Add Staff" />
+            <Button fx:id="viewStaffButton" onAction="#handleViewStaff" style="-fx-font-size: 16px;" text="View Staff" />
+            <Button fx:id="modifyStaffButton" onAction="#handleModifyStaff" style="-fx-font-size: 16px;" text="Modify Staff" />
+            <Button fx:id="deleteStaffButton" onAction="#handleDeleteStaff" style="-fx-font-size: 16px;" text="Delete Staff" />
         </VBox>
     </left>
 
     <center>
-        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
             <Label fx:id="statusLabel" style="-fx-font-size: 18px;" />
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="First Name" style="-fx-font-size: 16px;" />
+            <HBox alignment="CENTER" spacing="20">
+                <Label style="-fx-font-size: 16px;" text="First Name" />
                 <TextField fx:id="firstNameField" prefWidth="250" promptText="First Name" />
             </HBox>
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="Last Name" style="-fx-font-size: 16px;" />
+            <HBox alignment="CENTER" spacing="20">
+                <Label style="-fx-font-size: 16px;" text="Last Name" />
                 <TextField fx:id="lastNameField" prefWidth="250" promptText="Last Name" />
             </HBox>
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="Select Role" style="-fx-font-size: 16px;" />
+            <HBox alignment="CENTER" spacing="20">
+                <Label style="-fx-font-size: 16px;" text="Select Role" />
                 <ComboBox fx:id="roleBox" prefWidth="250" promptText="Select Role" />
             </HBox>
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="Hours To Work" style="-fx-font-size: 16px;" />
+            <HBox alignment="CENTER" spacing="20">
+                <Label prefHeight="20.0" prefWidth="104.0" style="-fx-font-size: 16px;" text="Hours To Work" />
                 <TextField fx:id="hoursToWorkField" prefWidth="200" promptText="Hours To Work" />
             </HBox>
-            <HBox spacing="20" alignment="CENTER">
-                <Label text="Total Hours Worked" style="-fx-font-size: 16px;" />
-                <TextField fx:id="totalHoursWorkedField" prefWidth="200"
-                    promptText="Total Hours Worked" />
+            <HBox alignment="CENTER" spacing="20">
+                <Label style="-fx-font-size: 16px;" text="Total Hours Worked" />
+                <TextField fx:id="totalHoursWorkedField" prefWidth="200" promptText="Total Hours Worked" />
             </HBox>
 
-            <TableView fx:id="staffTableView" VBox.vgrow="ALWAYS" visible="false">
+            <TableView fx:id="staffTableView" visible="false" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn text="ID" fx:id="idColumn" prefWidth="50" />
-                    <TableColumn text="First Name" fx:id="firstNameColumn" prefWidth="150" />
-                    <TableColumn text="Last Name" fx:id="lastNameColumn" prefWidth="150" />
-                    <TableColumn text="Role" fx:id="roleColumn" prefWidth="150" />
-                    <TableColumn text="Hours To Work" fx:id="hoursToWorkColumn" prefWidth="150" />
-                    <TableColumn text="Total Hours Worked" fx:id="totalHoursWorkedColumn"
-                        prefWidth="150" />
+                    <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="firstNameColumn" prefWidth="150" text="First Name" />
+                    <TableColumn fx:id="lastNameColumn" prefWidth="150" text="Last Name" />
+                    <TableColumn fx:id="roleColumn" prefWidth="150" text="Role" />
+                    <TableColumn fx:id="hoursToWorkColumn" prefWidth="150" text="Hours To Work" />
+                    <TableColumn fx:id="totalHoursWorkedColumn" prefWidth="150" text="Total Hours Worked" />
                 </columns>
             </TableView>
         </VBox>
     </center>
-
 </BorderPane>

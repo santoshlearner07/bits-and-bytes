@@ -159,7 +159,10 @@ public class Customer {
                     while (resultSet.next()) {
                         String itemName = resultSet.getString("item_name");
                         String itemPrice = resultSet.getString("item_price");
-                        orderDetails.append(itemName).append(" - ").append(itemPrice).append("\n");
+                        String itemstatus = resultSet.getString("status");
+                        String itemService = resultSet.getString("services");
+                        orderDetails.append(itemName).append(" - ").append(itemPrice).append(" - ").append(itemService)
+                                .append(" - ").append(itemstatus).append("\n");
                     }
                     if (orderDetails.length() > 0) {
                         displayOrderPopup(orderDetails.toString());

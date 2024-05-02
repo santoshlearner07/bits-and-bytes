@@ -5,16 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
+
+
+
+import java.io.IOException;
 import java.sql.*;
 
 public class StaffController {
@@ -98,6 +104,15 @@ public class StaffController {
             }
         });
     }
+
+    @FXML
+    private void goBack() {
+        // Get the current stage and close it
+        Stage stage = (Stage) statusLabel.getScene().getWindow();
+        stage.close();
+    }
+    
+
 
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
@@ -344,6 +359,7 @@ private void addStaffFromSignupTableToStaffTable() {
         // } catch (Exception e) {
         //     e.printStackTrace();
         // }
+        System.out.println("StaffController.logout()");
     }
 
 
