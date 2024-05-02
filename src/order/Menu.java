@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,7 +41,7 @@ public class Menu implements Initializable {
     private final String USERNAME = "root";
     private final String PASSWORD = "san7@SQL";
     private final String PENDING = "pending";
-    private final String INSERT_ORDER = "INSERT INTO orders (custName, item_name, item_price, status, foodPrepStatus, services, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String INSERT_ORDER = "INSERT INTO orders (custName, item_name, item_price, status, foodPrepStatus, services, time,orderDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     private String firstName;
     @FXML
@@ -54,6 +55,7 @@ public class Menu implements Initializable {
     @FXML
     private ListView<String> orderListView;
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private List<String> orderList = new ArrayList();
 
     /**
@@ -76,20 +78,21 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Load menu items from the menuItems array
         for (MenuItem menuItem : menuItems) {
             addItem(menuItem.getName(), menuItem.getPrice());
         }
 
-        // Add Today's Special
         MenuItem todaysSpecial = getTodaysSpecial();
         if (todaysSpecial != null) {
             addItem(todaysSpecial.getName(), todaysSpecial.getPrice());
         }
     }
-
+/**
+ * today's special based on the day of the week
+ * @return
+ */
     private MenuItem getTodaysSpecial() {
-        // today's special based on the day of the week
+        
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
         switch (dayOfWeek) {
             case MONDAY:
@@ -111,6 +114,11 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * Adding Item to Basket with itemName and itemPrice
+     * @param name
+     * @param price
+     */
     @FXML
     private void addItem(String name, String price) {
         // Create a new menu item label
@@ -146,7 +154,6 @@ public class Menu implements Initializable {
 
     /**
      * the item that gets clicked will be added to the basket
-     * 
      * @param name
      * @param price
      */
@@ -155,14 +162,20 @@ public class Menu implements Initializable {
         updateOrderListView();
     }
 
+    /**
+     * once order added to Basket updateting the basket
+     */
     private void updateOrderListView() {
         ObservableList<String> items = FXCollections.observableArrayList(orderList);
         orderListView.setItems(items);
     }
 
+    /**
+     * if basket is empty user cannot place a takeAway order
+     * and if basket is not empty after placing an order it will redirect to Customer UI.
+     */
     @FXML
     private void takeAway() {
-
         if (orderList.size() == 0) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("No Order");
@@ -181,6 +194,7 @@ public class Menu implements Initializable {
                 timeOptions.add(String.format("%02d:00", hour));
             }
             timeDialog.getItems().addAll(timeOptions);
+            String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
             timeDialog.showAndWait().ifPresent(time -> {
                 try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
@@ -195,6 +209,8 @@ public class Menu implements Initializable {
                             statement.setString(5, PENDING);
                             statement.setString(6, "Takeaway"); // Assuming there's a column for order type
                             statement.setString(7, time); // Insert the selected pickup time
+                            statement.setString(8, orderDate); // Insert the selected pickup time
+
                             statement.executeUpdate();
                         }
                     }
@@ -223,6 +239,10 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * if basket is empty user cannot place a delivery order
+     * and if basket is not empty after placing an order it will redirect to Customer UI.
+     */
     @FXML
     private void delivery() {
 
@@ -247,10 +267,11 @@ public class Menu implements Initializable {
             LocalTime currentTime = LocalTime.now();
             String timeText = String.format("%02d:%02d:%02d", currentTime.getHour(), currentTime.getMinute(),
                     currentTime.getSecond());
+            String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
             if (deliveryAddress != null) {
                 try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
-                    String insertOrder = "INSERT INTO orders (custName, item_name, item_price, status, foodPrepStatus, services, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    String insertOrder = INSERT_ORDER;
                     try (PreparedStatement statement = connection.prepareStatement(insertOrder)) {
                         for (String orderItem : orderList) {
                             String[] parts = orderItem.split(" - ");
@@ -260,8 +281,8 @@ public class Menu implements Initializable {
                             statement.setString(4, PENDING);
                             statement.setString(5, PENDING);
                             statement.setString(6, "Delivery");
-                            statement.setString(7, timeText );
-
+                            statement.setString(7, timeText);
+                            statement.setString(8, orderDate);
                             statement.executeUpdate();
                         }
                     }
@@ -295,6 +316,11 @@ public class Menu implements Initializable {
         }
     }
 
+    /**
+     * fetching address from signup table based on userName and return an address
+     * @param username
+     * @return
+     */
     private String fetchDeliveryAddressFromDatabase(String username) {
         String deliveryAddress = null;
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
@@ -314,6 +340,11 @@ public class Menu implements Initializable {
         return deliveryAddress;
     }
 
+    /**
+     * alert box for showing any alert or message 
+     * @param title
+     * @param content
+     */
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
@@ -323,8 +354,8 @@ public class Menu implements Initializable {
     }
 
     /**
-     * popup appears as the button is clicked and all the data is inserted in
-     * database
+     * if basket is empty user cannot place a place an order
+     * and if basket is not empty after placing an order it will redirect to table UI where he has to select table.
      */
     @FXML
     private void placeOrder() {
@@ -341,6 +372,8 @@ public class Menu implements Initializable {
             String timeText = String.format("%02d:%02d:%02d", currentTime.getHour(), currentTime.getMinute(),
                     currentTime.getSecond());
 
+            String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
             try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
                 String insertOrder = INSERT_ORDER;
                 try (PreparedStatement statement = connection.prepareStatement(insertOrder)) {
@@ -353,6 +386,7 @@ public class Menu implements Initializable {
                         statement.setString(5, PENDING);
                         statement.setString(6, "Dine-In");
                         statement.setString(7, timeText);
+                        statement.setString(8, orderDate);
                         statement.executeUpdate();
                     }
                 }

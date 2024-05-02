@@ -13,7 +13,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<!-- <?import javafx.scene.control.TimePicker?> -->
 
 <StackPane fx:id="tableBK" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
     prefHeight="575" prefWidth="900" xmlns="http://javafx.com/javafx/8"

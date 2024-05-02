@@ -15,10 +15,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.getScene().getRoot().requestFocus();
     }
-/**
- * 
- * @param args
- */
+
     public static void main(String[] args) {
         launch(args);
     }

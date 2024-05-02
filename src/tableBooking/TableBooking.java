@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 import customer.Customer;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +26,6 @@ public class TableBooking {
     private final String PASSWORD = "san7@SQL";
     private final String CUSTOMER_TABLE_BOOKED = "INSERT INTO tableBookingInfo (name, tableSeat, tblBkDt,tblBkTime, tableStatus) VALUES (?, ?, ?, ?,?)";
 
-    private String firstName;
     @FXML
     private ComboBox<String> seatsComboBox;
 
@@ -51,6 +49,9 @@ public class TableBooking {
 
     private ResultSet userData;
 
+    /**
+     * at begining i am displaying table seats and time 
+     */
     @FXML
     public void initialize() {
         seatsComboBox.setItems(FXCollections.observableArrayList(
@@ -72,15 +73,23 @@ public class TableBooking {
         });
     }
 
-
+/**
+ * getting all the user data using userName and then displaying it on screen
+ * @param userData
+ * @throws SQLException
+ */
     public void setUser(ResultSet userData) throws SQLException {
         StringBuilder userDataBuilder = new StringBuilder();
         this.userData = userData;
-        this.firstName = userData.getString("firstName");
         userDataBuilder.append("Hello, ").append(userData.getString("firstName")).append(" ");
         userDataBuilder.append(userData.getString("lastName")).append("\n");
     }
 
+    /**
+     * booking a table based on user need and preferences
+     * getting all the values from combobox and timepicker
+     * @throws SQLException
+     */
     @FXML
     public void bookATable() throws SQLException {
         if (userData == null) {
@@ -126,6 +135,10 @@ public class TableBooking {
         }
     }
 
+    /**
+     * going back to customer UI
+     * @throws SQLException
+     */
     @FXML
     public void goBack() throws SQLException {
         try {

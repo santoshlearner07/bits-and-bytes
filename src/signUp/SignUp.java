@@ -8,7 +8,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ComboBox;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,19 +34,27 @@ public class SignUp {
     @FXML
     private StackPane signUpPane;
 
-    private final String databaseURL = "jdbc:mysql://localhost:3306/cafe";
-    private final String username = "root";
-    private final String password = "san7@SQL";
+    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/cafe";
+    private final String USERNAME = "root";
+    private final String PASSWORD = "san7@SQL";
 
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;
 
     Alert alert = new Alert(AlertType.ERROR);
 
+    /**
+     * Connecting to database, using username and password
+     * @throws SQLException
+     */
     private void connect() throws SQLException {
-        connection = DriverManager.getConnection(databaseURL, username, password);
+        connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
     }
 
+    /**
+     * disconnecting the database
+     * @throws SQLException
+     */
     private void disconnect() throws SQLException {
         if (preparedStatement != null) {
             preparedStatement.close();
@@ -57,6 +64,14 @@ public class SignUp {
         }
     }
 
+    /**
+     * inserting all the necessary data to singup database
+     * @param firstName
+     * @param lastName
+     * @param userName
+     * @param address
+     * @throws SQLException
+     */
     private void insertSignUpData(String firstName, String lastName, String userName, String address)
             throws SQLException {
         connect();
@@ -89,6 +104,10 @@ public class SignUp {
         label.setText("Welcome! Create your account.");
     }
 
+    /**
+     * if user does not fill any data it will a popup will appear displaying fill data
+     * and if user fills all the data insertSignUpData() will be called which will insert all the data and in databse and then a popup display user Added.
+     */
     @FXML
     private void handleInput() {
         String inputFirstName = firstName.getText();
@@ -115,6 +134,9 @@ public class SignUp {
         address.clear();
     }
 
+    /**
+     * will take you Login Page 
+     */
     @FXML
     private void goToLogin() {
         try {
@@ -126,6 +148,11 @@ public class SignUp {
         }
     }
 
+    /**
+     * showAlert is used to display error or message 
+     * @param title
+     * @param message
+     */
     private void showAlert(String title, String message) {
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -133,6 +160,13 @@ public class SignUp {
         alert.showAndWait();
     }
 
+    /**
+     * this method prevents from having two user with same userName
+     * if username already exist user needs to change the userName
+     * @param userName
+     * @return
+     * @throws SQLException
+     */
     private boolean checkIfUserExists(String userName) throws SQLException {
         connect();
         String query = "SELECT COUNT(*) AS count FROM signup WHERE userName = ?";

@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import staff.ChefController;
 import staff.DeliveryDriverController;
-import staff.StaffManagementController;
 import staff.Waiter;
 
 public class Login {
@@ -50,6 +49,7 @@ public class Login {
     private void handleLogin() throws SQLException {
         connect();
         String checkUserName = userName.getText();
+        // String checkUserName = userName.getText();
         try {
             // Check in the signup table
             String customerQuery = "SELECT * FROM signup WHERE userName = ?";
@@ -76,7 +76,7 @@ public class Login {
                     goToPage.getChildren().setAll(mainRoot);
                 } else {
                     aUser.setText("User name does not exist");
-                    System.out.println("Username does not exist in the database.");
+                    System.out.println("Not a Customer or Username does not exist in the database.");
                     userName.clear();
                 }
             }
@@ -88,8 +88,6 @@ public class Login {
                     // Redirect to manager page
                     loader = new FXMLLoader(getClass().getResource("../staff/StaffManagement.fxml"));
                     Parent mainRoot = loader.load();
-                    StaffManagementController managerController = loader.getController();
-                    managerController.setUser(staffResult);
                     goToPage.getChildren().setAll(mainRoot);
                 }
                 if ("Chef".equalsIgnoreCase(userRole)) {

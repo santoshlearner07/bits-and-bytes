@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -148,6 +146,9 @@ public class Customer {
         }
     }
 
+    /**
+     * user Orders Past and Present are visible
+     */
     @FXML
     private void getOrders() {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
@@ -161,7 +162,9 @@ public class Customer {
                         String itemPrice = resultSet.getString("item_price");
                         String itemstatus = resultSet.getString("status");
                         String itemService = resultSet.getString("services");
-                        orderDetails.append(itemName).append(" - ").append(itemPrice).append(" - ").append(itemService)
+                        String orderedON = resultSet.getString("orderDate");
+                        orderDetails.append("Ordered Date: -").append(orderedON).append(" - ").append(itemName)
+                                .append(" - ").append(itemPrice).append(" - ").append(itemService)
                                 .append(" - ").append(itemstatus).append("\n");
                     }
                     if (orderDetails.length() > 0) {
@@ -177,6 +180,12 @@ public class Customer {
         }
     }
 
+    /**
+     * orderDetails fetching data from Whole orderDetails and displaing necessary
+     * Output
+     * 
+     * @param orderDetails
+     */
     private void displayOrderPopup(String orderDetails) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Order Details");
