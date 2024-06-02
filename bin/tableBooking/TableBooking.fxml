@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<StackPane fx:id="tableBK" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="575" prefWidth="900" xmlns="http://javafx.com/javafx/8"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableBooking.TableBooking">
+    <ImageView fitWidth="900" fitHeight="550">
+        <image>
+            <Image url="@../images/table2.jpeg" />
+        </image>
+    </ImageView>
+    <VBox spacing="20" style="-fx-font-size:12px;-fx-padding: 30 0 0 0;-fx-font-weight:bold;">
+        <HBox alignment="center">
+            <Label text="Select the number of seats: "
+                style="-fx-font-size:17px;-fx-text-fill:#FFFFF0" />
+            <ComboBox fx:id="seatsComboBox" promptText="Select Seat" />
+        </HBox>
+        <HBox alignment="center">
+            <Label text="Select Date: " style="-fx-font-size:17px;-fx-text-fill:#FFFFF0" />
+            <DatePicker fx:id="datePicker" promptText="Choose Date" />
+        </HBox>
+        <HBox alignment="center">
+            <Label text="Select Time: " style="-fx-font-size:17px;-fx-text-fill:#FFFFF0" />
+            <ComboBox fx:id="timeComboBox" promptText="Select Time" />
+        </HBox>
+        <HBox alignment="CENTER">
+            <Button fx:id="bookTable" onAction="#bookATable" style="-fx-background-radius: 10px;">Book
+                a table</Button>
+        </HBox>
+        <HBox alignment="CENTER">
+            <Label text=""  fx:id="bookingStatus" style="-fx-font-size:14px;-fx-text-fill:#FFFFF0"/>
+        </HBox>
+        <HBox alignment="CENTER">
+            <Button fx:id="bookTable" onAction="#goBack" style="-fx-background-radius: 10px;">Go Back</Button>
+        </HBox>
+    </VBox>
+</StackPane>

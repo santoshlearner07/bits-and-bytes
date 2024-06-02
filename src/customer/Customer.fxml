@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.input.MouseEvent?>
+<StackPane fx:id="orderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+    minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="customer.Customer" prefHeight="600" prefWidth="900"  >
+    <VBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER">
+        <HBox alignment="CENTER">
+            <Label fx:id="userDataLogin"
+                style="-fx-font-size:22px;-fx-font-weight:bold;-fx-text-fill: #40E0D0;" />
+        </HBox>
+    </VBox>
+    <VBox alignment="TOP_CENTER" StackPane.alignment="TOP_CENTER" style="-fx-padding: 40 0 0 100">
+        <HBox alignment="CENTER">
+            <Label text="" fx:id="tableBKStatus" style="-fx-font-size:15px" />
+        </HBox>
+    </VBox>
+    <VBox fx:id="displayTable" style="-fx-padding: 40 0 0 0;" StackPane.alignment="CENTER">
+        <HBox alignment="TOP_LEFT" onMouseClicked="#goToMenu">
+            <ImageView fitWidth="400" fitHeight="270">
+                <image>
+                    <Image url="@../images/menu.jpeg" />
+                </image>
+            </ImageView>
+        </HBox>
+
+        <HBox alignment="TOP_RIGHT" onMouseClicked="#goToTable">
+            <ImageView fitWidth="400" fitHeight="270">
+                <image>
+                    <Image url="@../images/table.jpeg" />
+                </image>
+            </ImageView>
+        </HBox>
+
+        <HBox alignment="TOP_RIGHT">
+            <Button text="Logout" onAction="#logout"
+                style="-fx-cursor: hand;-fx-background-color: #de001c;-fx-background-radius: 10px;-fx-text-fill: #FFF0F5;" />
+        </HBox>
+    </VBox>
+
+    <VBox alignment="BOTTOM_CENTER" StackPane.alignment="BOTTOM_CENTER"
+        style="-fx-padding: 0 0 0 0;" maxHeight="40" maxWidth="-Infinity" minHeight="40"
+        minWidth="-Infinity">
+        <HBox alignment="CENTER">
+            <Button text="My Orders" onAction="#getOrders"
+                style="-fx-cursor: hand;-fx-background-color: #7fffd4;-fx-background-radius: 10px;-fx-text-fill: black;" />
+        </HBox>
+    </VBox>
+</StackPane>
